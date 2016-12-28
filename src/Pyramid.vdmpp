@@ -1,12 +1,22 @@
 class Pyramid
-types
--- TODO Define types here
-values
--- TODO Define values here
 instance variables
--- TODO Define instance variables here
+--	private row1: Card;
+--	private row2: seq of Card;
+--	private row3: seq of Card;
+--  private row4: seq of Card;
+--	private row5: seq of Card;
+--	private row6: seq of Card;
+--	private row7: seq of Card;
+private d: Deck;
 operations
 -- TODO Define operations here
+	public Pyramid: Deck  ==> Pyramid
+	Pyramid(deck) ==
+	(
+		d := deck;
+		return self;
+	)
+	
 functions
 -- TODO Define functiones here
 traces

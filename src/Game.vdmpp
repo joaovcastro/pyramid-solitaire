@@ -1,0 +1,45 @@
+class Game
+
+instance variables
+	-- The game's deck
+	private deck: Deck;
+	-- The Pyramid
+	private pyramid: Pyramid;
+	-- The draw pile
+	private drawPile: Pile;
+	-- The first waste pile
+	private wastePile: Pile;
+	-- The second waste pile
+	private wastePile2: Pile;
+	-- The player's score
+	private score: int;
+
+operations
+
+	-- Constructor
+	public Game: () ==> Game
+	Game() == 
+	(	
+		deck := new Deck();
+		-- Shuffle Deck		
+		------- shuffle(deck); -------------
+		-- Take 28 cards for Pyramid		
+		pyramid := new Pyramid(deck);
+		-- Put rest of cards on draw pile
+		drawPile := new Pile(deck);
+		-- Other piles start empty
+		wastePile := new Pile();
+		wastePile2 := new Pile();
+		-- Player starts with score 0
+		score := 0;
+	)
+	post len deck.cards  = 52;
+	
+	-- Shuffle Deck
+	
+functions
+
+traces
+
+
+end Game
