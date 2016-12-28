@@ -2,7 +2,7 @@ class Game
 
 instance variables
 	-- The game's deck
-	public deck: Deck;
+	private deck: Deck;
 	-- The Pyramid
 	private pyramid: Pyramid;
 	-- The draw pile
@@ -44,8 +44,8 @@ operations
 	(	
 		-- Check if card sum is 13
 		if c1.getScore() + c2.getScore() = 13 
-			then  IO`print("pair\n")
-		else IO`print("not pair\n");
+			then  IO`print("pair")
+		else IO`print("not pair");
 		-- Delete cards and return true
 	 )
 	 post len deck.cards  = 52;

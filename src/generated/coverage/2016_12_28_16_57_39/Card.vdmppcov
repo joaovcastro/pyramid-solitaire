@@ -24,14 +24,8 @@ class Card
 			
 			return self
 		)
-		post suit = su and score = sc;
+		post suit = su and score = sc
 		
-		-- Get Score
-		public getScore: () ==> nat1
-		getScore() ==
-		(
-			return score;
-		)
 		
 		
 	functions

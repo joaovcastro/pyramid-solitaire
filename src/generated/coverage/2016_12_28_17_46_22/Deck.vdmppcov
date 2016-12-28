@@ -37,11 +37,10 @@ class Deck
 		
 		-- Print deck [for debug]
 		public printDeck: () ==> ()
-		printDeck() == 
-		(
-			IO`print(cards);
-		)
-		pre cards <> [];
+			printDeck() == 
+			(
+				IO`print(cards);
+			)
 		
 		
 		 

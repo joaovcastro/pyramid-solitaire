@@ -2,7 +2,7 @@ class Game
 
 instance variables
 	-- The game's deck
-	public deck: Deck;
+	private deck: Deck;
 	-- The Pyramid
 	private pyramid: Pyramid;
 	-- The draw pile
@@ -24,31 +24,18 @@ operations
 		-- Shuffle Deck		
 		------- shuffle(deck); -------------
 		-- Take 28 cards for Pyramid		
-	--	pyramid := new Pyramid(deck);
+		pyramid := new Pyramid(deck);
 		-- Put rest of cards on draw pile
-	--	drawPile := new Pile(deck);
+		drawPile := new Pile(deck);
 		-- Other piles start empty
-	--	wastePile  := new Pile();
---		wastePile2 := new Pile();
+		wastePile := new Pile();
+		wastePile2 := new Pile();
 		-- Player starts with score 0
-	--	score := 0;
+		score := 0;
 	)
-	post len deck.cards = 52;
+	post len deck.cards  = 52;
 	
 	-- Shuffle Deck
-	
-	
-	-- Pair Cards
-	public pairCards: Card * Card ==> ()
-	pairCards(c1, c2) == 
-	(	
-		-- Check if card sum is 13
-		if c1.getScore() + c2.getScore() = 13 
-			then  IO`print("pair\n")
-		else IO`print("not pair\n");
-		-- Delete cards and return true
-	 )
-	 post len deck.cards  = 52;
 	
 functions
 

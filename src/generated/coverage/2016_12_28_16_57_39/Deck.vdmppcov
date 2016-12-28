@@ -33,15 +33,16 @@ class Deck
 				return hd cards;
 			)
 		pre cards <> []
-		post (cards = tl cards~) and RESULT = hd cards;		
+		post cards = tl cards~;
+		-- post RESULT = hd cards;		
 		
 		-- Print deck [for debug]
-		public printDeck: () ==> ()
-		printDeck() == 
-		(
-			IO`print(cards);
-		)
-		pre cards <> [];
+	--	public printDeck: () ==> ()
+	--		printDeck() == 
+	--		(
+	--			for counter = 1 to len cards do
+	--			--print cards;
+	--		)
 		
 		
 		 
