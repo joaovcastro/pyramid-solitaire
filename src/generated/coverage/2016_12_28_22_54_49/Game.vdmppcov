@@ -16,9 +16,7 @@ instance variables
 
 operations
 
-	-----------------
-	-- Constructor --
-	-----------------
+	-- Constructor
 	public Game: () ==> Game
 	Game() == 
 	(	
@@ -28,7 +26,6 @@ operations
 		shuffleDeck();
 		-- Take 28 cards for Pyramid		
 		pyramid := new Pyramid();
---		placeCardsInPyramid();
 		-- Put rest of cards on draw pile
 		drawPile := new Pile(deck);
 		-- Other piles start empty
@@ -78,30 +75,15 @@ operations
 	 public printDeck: () ==> ()
 	 printDeck() == 
 	 (	
-	 		IO`print("\n");
 			for i = 1 to len deck.cards do
 			(
-				if (deck.cards(i).getRank() = 'N') then  IO`print(deck.cards(i).getScore())
-				else IO`print(deck.cards(i).getRank());
+				 IO`print(deck.cards(i).score);
 				 IO`print(" ");
-				 IO`print(deck.cards(i).getSuit());
+				 IO`print(deck.cards(i).suit);
 				 IO`print("\n");
 			)
-		);
-		-- POST 
-		
-		----------------------------
-		-- Place Cards in Pyramid --
-		----------------------------
-		public placeCardsInPyramid: () ==> ()
-			placeCardsInPyramid() == 
-			(				
-			  while len pyramid.cards < 28 do 
-			  (
-			  	pyramid.placeCard(deck.takeCard());
-			  )
-			)
-		post len deck.cards + len pyramid.cards = 52
+		)
+
 	
 functions
 

@@ -20,40 +20,18 @@ class Card
 			elseif sc = 11 then rank := 'J'
 			elseif sc = 12 then rank := 'Q'
 			elseif sc = 13 then rank := 'K'
-			else rank := 'N';
+			else rank := 'G';
 			
 			return self
 		)
 		post suit = su and score = sc;
 		
-		
-		---------------
-		-- Get Score --
-		---------------
+		-- Get Score
 		public getScore: () ==> nat1
 		getScore() ==
 		(
 			return score;
-		);
-		
-		
-		--------------
-		-- Get Rank --
-		--------------
-		public getRank: () ==> char
-		getRank() ==
-		(
-			return rank;
-		);
-		
-		--------------
-		-- Get Suit --
-		--------------
-		public getSuit: () ==> char
-		getSuit() ==
-		(
-			return suit;
-		);
+		)
 		
 		
 	functions

@@ -1,0 +1,24 @@
+class Pyramid
+instance variables
+		public row1: Card;
+--		private row2: seq of Card;
+--		private row3: seq of Card;
+--	  private row4: seq of Card;
+	--	private row5: seq of Card;
+--		private row6: seq of Card;
+--		private row7: seq of Card;
+	
+operations
+	-- Constructor
+	public Pyramid: Deck  ==> Pyramid
+	Pyramid(deck) ==
+	(
+		row1 := deck.takeCard();
+		return self;
+	)
+	
+functions
+-- TODO Define functiones here
+traces
+-- TODO Define Combinatorial Test Traces here
+end Pyramid

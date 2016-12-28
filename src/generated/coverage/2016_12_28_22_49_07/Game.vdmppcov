@@ -16,32 +16,26 @@ instance variables
 
 operations
 
-	-----------------
-	-- Constructor --
-	-----------------
+	-- Constructor
 	public Game: () ==> Game
 	Game() == 
 	(	
-		-- Create Deck
 		deck := new Deck();
-		-- Shuffle It		
-		shuffleDeck();
+		-- Shuffle Deck		
+		------- shuffle(deck); -------------
 		-- Take 28 cards for Pyramid		
-		pyramid := new Pyramid();
---		placeCardsInPyramid();
+	--	pyramid := new Pyramid(deck);
 		-- Put rest of cards on draw pile
-		drawPile := new Pile(deck);
+	--	drawPile := new Pile(deck);
 		-- Other piles start empty
 		wastePile  := new Pile();
 		wastePile2 := new Pile();
 		-- Player starts with score 0
-		score := 0;
+	--	score := 0;
 	)
 	post len deck.cards = 52;
 	
-	------------------
-	-- Shuffle Deck --
-	------------------
+	-- Shuffle Deck
 	public shuffleDeck: () ==> ()
 	shuffleDeck() == 
 	(
@@ -58,9 +52,7 @@ operations
 	)
 	post len deck.cards = 52;
 	
-	----------------
-	-- Pair Cards --
-	----------------
+	-- Pair Cards
 	public pairCards: Card * Card ==> ()
 	pairCards(c1, c2) == 
 	(	
@@ -72,36 +64,18 @@ operations
 	 )
 	 post len deck.cards  = 52;
 	 
-	 ----------------
-	 -- Print Deck --
-	 ----------------
+	 -- Print Deck
 	 public printDeck: () ==> ()
 	 printDeck() == 
 	 (	
-	 		IO`print("\n");
 			for i = 1 to len deck.cards do
 			(
-				if (deck.cards(i).getRank() = 'N') then  IO`print(deck.cards(i).getScore())
-				else IO`print(deck.cards(i).getRank());
+				 IO`print(deck.cards(i).score);
 				 IO`print(" ");
-				 IO`print(deck.cards(i).getSuit());
+				 IO`print(deck.cards(i).suit);
 				 IO`print("\n");
 			)
-		);
-		-- POST 
-		
-		----------------------------
-		-- Place Cards in Pyramid --
-		----------------------------
-		public placeCardsInPyramid: () ==> ()
-			placeCardsInPyramid() == 
-			(				
-			  while len pyramid.cards < 28 do 
-			  (
-			  	pyramid.placeCard(deck.takeCard());
-			  )
-			)
-		post len deck.cards + len pyramid.cards = 52
+		)
 	
 functions
 

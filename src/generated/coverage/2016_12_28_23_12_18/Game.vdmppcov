@@ -78,13 +78,11 @@ operations
 	 public printDeck: () ==> ()
 	 printDeck() == 
 	 (	
-	 		IO`print("\n");
 			for i = 1 to len deck.cards do
 			(
-				if (deck.cards(i).getRank() = 'N') then  IO`print(deck.cards(i).getScore())
-				else IO`print(deck.cards(i).getRank());
+				 IO`print(deck.cards(i).score);
 				 IO`print(" ");
-				 IO`print(deck.cards(i).getSuit());
+				 IO`print(deck.cards(i).suit);
 				 IO`print("\n");
 			)
 		);
