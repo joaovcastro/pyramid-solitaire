@@ -4,7 +4,7 @@ instance variables
 	-- The game's deck
 	public deck: Deck;
 	-- The Pyramid
-	public pyramid: Pyramid;
+	private pyramid: Pyramid;
 	-- The draw pile
 	public drawPile: Pile;
 	-- The first waste pile
@@ -37,7 +37,7 @@ operations
 		-- Player starts with score 0
 		score := 0;
 	)
-	post len deck.cards + len pyramid.cards = 52;
+	post len deck.cards = 52;
 	
 	------------------
 	-- Shuffle Deck --
@@ -86,8 +86,8 @@ operations
 			then  IO`print("pair\n")
 		else IO`print("not pair\n");
 		-- Delete cards and return true
-	 );
-	-- post len deck.cards  = 52;
+	 )
+	 post len deck.cards  = 52;
 	 
 	 ----------------
 	 -- Print Deck --
@@ -113,24 +113,12 @@ operations
 		public placeCardsInPyramid: () ==> ()
 			placeCardsInPyramid() == 
 			(				
-			  while len pyramid.getCards() < 28 do 
+			  while len pyramid.cards < 28 do 
 			  (
-			  	dcl tempCard : Card := deck.takeCard();
-			  	--IO`print(tempCard);
-			  	pyramid.placeCard(tempCard);
+			  	pyramid.placeCard(deck.takeCard());
 			  )
 			)
-		post len deck.cards + len pyramid.cards = 52
-	
-	
-		-----------------
-		-- Select Card --
-		-----------------
-		
-		-----------------
-		-- Select Card --
-		-----------------
-	
+	--	post len deck.cards + len pyramid.cards = 52
 	
 functions
 

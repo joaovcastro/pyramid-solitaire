@@ -5,7 +5,7 @@ class Card
 		-- Suits: S-> Spades, C->Clubs, H->Hearts, D->Diamonds
 		private rank: char;
 		private suit: char;
-		private score: nat;	
+		private score: nat1;	
 		
 	operations
 	
@@ -26,20 +26,7 @@ class Card
 		)
 		post suit = su and score = sc;
 		
-		-------------------------------------------
-		-- Empty Space -> when cards are deleted --
-		-------------------------------------------	
-		public Card : () ==> Card
-		Card() ==
-		(
-			rank := '0';
-			suit := '0';
-			score := 0;
-			return self;
-		)
-		post rank = '0' and suit = '0' and score = 0;
 		
-			
 		---------------
 		-- Get Score --
 		---------------

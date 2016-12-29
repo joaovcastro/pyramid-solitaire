@@ -4,7 +4,6 @@ class Pile
 	instance variables
 	
 		private cards : seq of Card := [];
-		public numCards : nat;
 		inv len cards <= 52;
 	
 		
@@ -16,10 +15,9 @@ class Pile
 		public Pile: () ==> Pile
 		Pile() == 
 		(
-			numCards := 0;
 			return self
 		)
-		post cards = [] and numCards = 0;
+		post cards = [];
 		
 		--------------------------------------------------
 		-- Pile with remainder of deck -> for draw pile --
@@ -36,11 +34,7 @@ class Pile
 		-- Put card in pile --
 		----------------------
 		public push: Card ==> ()
-			push(x) == 
-			(
-				cards := [x] ^ cards;
-				numCards := numCards + 1;
-			)
+			push(x) == cards := [x] ^ cards
 		post cards = [x] ^ cards~;
 		
 		--------------------------------

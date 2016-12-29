@@ -86,8 +86,8 @@ operations
 			then  IO`print("pair\n")
 		else IO`print("not pair\n");
 		-- Delete cards and return true
-	 );
-	-- post len deck.cards  = 52;
+	 )
+	 post len deck.cards  = 52;
 	 
 	 ----------------
 	 -- Print Deck --
@@ -113,24 +113,14 @@ operations
 		public placeCardsInPyramid: () ==> ()
 			placeCardsInPyramid() == 
 			(				
-			  while len pyramid.getCards() < 28 do 
+			  while len pyramid.cards < 28 do 
 			  (
 			  	dcl tempCard : Card := deck.takeCard();
-			  	--IO`print(tempCard);
+			  	IO`print(tempCard);
 			  	pyramid.placeCard(tempCard);
 			  )
 			)
-		post len deck.cards + len pyramid.cards = 52
-	
-	
-		-----------------
-		-- Select Card --
-		-----------------
-		
-		-----------------
-		-- Select Card --
-		-----------------
-	
+	--	post len deck.cards + len pyramid.cards = 52
 	
 functions
 

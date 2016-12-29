@@ -22,22 +22,10 @@ class Pyramid
 			placeCard(c) == 
 			(
 			 cards := cards ^ [c];
-			);
+			)
 	--	post len cards <= 28;
 		
-		---------------
-		-- Get Cards --
-		---------------
-		public getCards: () ==> seq of Card
-			getCards() == return cards;
 		
-		----------------------------------------	
-		-- Delete Card -> when pairs are done --
-		----------------------------------------
-		public deleteCard: nat ==> ()
-			deleteCard(index) == cards(index) := new Card() 
-		post len cards = 28;
-			
 		
 	functions
 	-- TODO Define functiones here
