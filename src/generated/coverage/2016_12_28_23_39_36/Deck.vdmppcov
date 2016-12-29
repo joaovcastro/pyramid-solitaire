@@ -3,9 +3,8 @@ class Deck
 		public cards : seq of Card;
 		public cardTemp : Card;
 	operations
-		-----------------
-		-- Constructor --
-		-----------------
+	
+		-- Constructor
 		public Deck: () ==> Deck
 			Deck() == (
 				cards := []; 
@@ -30,9 +29,8 @@ class Deck
 		public takeCard: () ==> Card
 			takeCard() == 
 			(
-				dcl drawn: Card := hd cards;
 				cards := tl cards;
-				return drawn;
+				return hd cards;
 			)
 		pre cards <> []
 		post (cards = tl cards~) and RESULT = hd cards;		

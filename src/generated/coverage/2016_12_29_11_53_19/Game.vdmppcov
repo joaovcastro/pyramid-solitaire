@@ -6,7 +6,7 @@ instance variables
 	-- The Pyramid
 	private pyramid: Pyramid;
 	-- The draw pile
-	public drawPile: Pile;
+	private drawPile: Pile;
 	-- The first waste pile
 	public wastePile: Pile;
 	-- The second waste pile
@@ -65,13 +65,12 @@ operations
 		drawCard() ==
 		(
 			dcl drawnCard : Card := drawPile.draw();
-			if (len wastePile.getCards() <> 0) then (
+			if (len wastePile.getCards() <> 1) then (
 				dcl temp : Card := wastePile.draw();
 				wastePile2.push(temp);
 			);
 			 wastePile.push(drawnCard)
 		);
---		pre len drawPile.getCards() <> 0;
 	-- post
 	
 	

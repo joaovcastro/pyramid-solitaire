@@ -59,9 +59,9 @@ class Pile
 				dcl drawn: Card := hd cards;
 				cards := tl cards;
 				return drawn;
-			);
-	--	pre cards <> []
---		post (cards = tl cards~);
+			)
+		pre cards <> []
+		post (cards = tl cards~);
 		
 		---------------
 		-- Get cards --

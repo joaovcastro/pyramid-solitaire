@@ -65,7 +65,7 @@ operations
 		drawCard() ==
 		(
 			dcl drawnCard : Card := drawPile.draw();
-			if (len wastePile.getCards() <> 0) then (
+			if (len wastePile.getCards() = 0) then (
 				dcl temp : Card := wastePile.draw();
 				wastePile2.push(temp);
 			);
