@@ -1,0 +1,70 @@
+class Pyramid
+	instance variables
+			public cards : seq of Card;
+			private numRows : nat1;
+		
+	operations
+	
+		-----------------
+		-- Constructor --
+		-----------------
+		public Pyramid: ()  ==> Pyramid
+			Pyramid() ==
+			(
+				cards := [];
+				numRows := 7;
+				return self
+			)
+		post cards = [] and numRows = 7;
+			
+		---------------------------
+		-- Place Card in Pyramid --
+		---------------------------
+		public placeCard: Card ==> ()
+			placeCard(c) == 
+			(
+			 cards := cards ^ [c];
+			);
+	--	post len cards <= 28;
+		
+		---------------
+		-- Get Cards --
+		---------------
+		public getCards: () ==> seq of Card
+			getCards() == return cards;
+		
+		----------------------------------------	
+		-- Delete Card -> when pairs are done --
+		----------------------------------------
+		public deleteCard: nat ==> ()
+			deleteCard(index) == cards(index) := new Card() 
+		post len cards = 28;
+		
+		-------------------
+		-- Print Pyramid --
+		-------------------
+		public print: () ==> ()
+			print() == 
+			(
+				for i = 1 to numRows do
+				(
+				  for j = 0 to i do 
+				  (
+				    IO`print(cards(i+j).getScore());
+				    IO`print(cards(i+j).getSuit());
+				    IO`print("        ");
+				  );
+				  IO`print("\n")
+				);
+			)
+		post len cards = 28;
+		-----------------
+		-- Select Card --
+		-----------------
+			
+		
+	functions
+	-- TODO Define functiones here
+	traces
+	-- TODO Define Combinatorial Test Traces here
+end Pyramid

@@ -1,0 +1,125 @@
+class Pyramid
+	instance variables
+			public cards : seq of Card;
+			private numRows : nat1;
+		
+	operations
+	
+		-----------------
+		-- Constructor --
+		-----------------
+		public Pyramid: ()  ==> Pyramid
+			Pyramid() ==
+			(
+				cards := [];
+				numRows := 7;
+				return self
+			)
+		post cards = [] and numRows = 7;
+			
+		---------------------------
+		-- Place Card in Pyramid --
+		---------------------------
+		public placeCard: Card ==> ()
+			placeCard(c) == 
+			(
+			 cards := cards ^ [c];
+			);
+	--	post len cards <= 28;
+		
+		---------------
+		-- Get Cards --
+		---------------
+		public getCards: () ==> seq of Card
+			getCards() == return cards;
+		
+		----------------------------------------	
+		-- Delete Card -> when pairs are done --
+		----------------------------------------
+		public deleteCard: nat ==> ()
+			deleteCard(index) == cards(index) := new Card() 
+		post len cards = 28;
+		
+		-------------------
+		-- Print Pyramid --
+		-------------------
+		public print: () ==> ()
+			print() == 
+			(
+				IO`print("\n");
+				for i = 1 to numRows do
+				(
+				  for j = i to 2*i-1 do 
+				  (
+				    IO`print(cards(i+j).getScore());
+				    IO`print(cards(i+j).getSuit());
+				    IO`print("        ");
+				  );
+				  IO`print("\n")
+				);
+			)
+		post len cards = 28;
+		
+		-----------------
+		-- Select Card --
+		-----------------
+		public selectCard : seq of char * char ==> bool
+			selectCard(rank, suit)  == 
+			(
+				dcl index : nat;
+				dcl row : nat1;
+				dcl col : nat;
+				dcl found : bool := false;
+				dcl tempCard : Card;
+				dcl score : nat := convertRank(rank);
+				
+				for i = 1 to numRows do
+				(
+					for j = 1 to i do
+					(
+						if cards(i+j).getScore() = score and cards(i+j).getSuit() = suit then
+						(
+							tempCard := cards(i+j);
+						  index := i+j;
+						  row := i;
+						  col := j-1;
+						  found := true;
+						  IO`print("row: ");
+						  IO`print(row);
+						  IO`print("     col: ");
+						  IO`print(col);
+						  IO`print("\n");
+
+						 );
+					)
+				);
+			 return found;
+			);
+			--post index <= len cards;
+		
+		------------------
+		-- Convert Rank --
+		------------------
+		public convertRank : seq of char ==> nat
+		convertRank(rnk) == 
+		(
+			if rnk = "A" then return 1
+			elseif rnk = "2" then return 2
+			elseif rnk = "3" then return 3
+			elseif rnk = "4" then return 4
+			elseif rnk = "5" then return 5
+			elseif rnk = "6" then return 6
+			elseif rnk = "7" then return 7
+			elseif rnk = "8" then return 8
+			elseif rnk = "9" then return 9
+			elseif rnk = "10" then return 10
+			elseif rnk = "J"  then return 11
+			elseif rnk = "Q"  then return 12
+			else return 13;
+		);
+		
+	functions
+	-- TODO Define functiones here
+	traces
+	-- TODO Define Combinatorial Test Traces here
+end Pyramid

@@ -13,7 +13,8 @@ instance variables
 	public wastePile2: Pile;
 	-- The player's score
 	private score: int;
-
+	-- Control Variable for game over
+	private gameOver: bool := false;
 operations
 
 	-----------------
@@ -22,6 +23,7 @@ operations
 	public Game: () ==> Game
 	Game() == 
 	(	
+
 		-- Create Deck
 		deck := new Deck();
 		-- Shuffle It		
@@ -36,8 +38,67 @@ operations
 		wastePile2 := new Pile();
 		-- Player starts with score 0
 		score := 0;
+		
+		-- Start Game
+		gameCycle();
 	)
 	post len deck.cards + len pyramid.cards = 52;
+	
+	---------------------
+	-- Print GameState --
+	---------------------
+	public print: () ==> ()
+	print() == 
+	(
+		-- Print Score
+		IO`print("Score : ");
+		IO`print(score);
+		IO`print("\n");
+		-- Print Pyramid 
+		pyramid.print();
+		IO`print("\n");
+		-- Print Piles
+		
+		if (len wastePile.getCards() <> 0) then 
+		(
+			IO`print("Pile 1: ");
+			IO`print(wastePile.top());
+			IO`print("\n");
+		);
+		if (len wastePile2.getCards() <> 0) then 
+		(
+			IO`print("Pile 2: ");
+			IO`print(wastePile2.top());
+			IO`print("\n");
+		)	;
+		
+--		IO`print("Select \n1: turn card from draw pile\n2: select a card \n");
+	
+	);
+	
+	----------------
+	-- Game Cycle --
+	----------------
+	public gameCycle: () ==> ()
+	gameCycle() == 
+	(
+	--	while (gameOver <> true) do 
+		(
+			-- Print Pyramid
+			print();
+			
+			-- Get Player's Move
+			-- getPlayerMove();
+			-- Validate It
+			-- validatePlay();
+			-- Check if Game is Over
+			-- checkGameOver();
+		
+		)
+	
+	);
+	
+	
 	
 	------------------
 	-- Shuffle Deck --
@@ -98,8 +159,7 @@ operations
 	 		IO`print("\n");
 			for i = 1 to len deck.cards do
 			(
-				if (deck.cards(i).getRank() = 'N') then  IO`print(deck.cards(i).getScore())
-				else IO`print(deck.cards(i).getRank());
+				 IO`print(deck.cards(i).getRank());
 				 IO`print(" ");
 				 IO`print(deck.cards(i).getSuit());
 				 IO`print("\n");
