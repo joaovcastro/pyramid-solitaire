@@ -1,0 +1,202 @@
+class Game
+
+instance variables
+	-- The game's deck
+	public deck: Deck;
+	-- The Pyramid
+	public pyramid: Pyramid;
+	-- The draw pile
+	public drawPile: Pile;
+	-- The first waste pile
+	public wastePile: Pile;
+	-- The second waste pile
+	public wastePile2: Pile;
+	-- Control Variable for game over
+	private gameOver: bool := false;
+operations
+
+	-----------------
+	-- Constructor --
+	-----------------
+	public Game: () ==> Game
+	Game() == 
+	(	
+
+		-- Create Deck
+		deck := new Deck();
+		-- Shuffle It		
+		shuffleDeck();
+		-- Take 28 cards for Pyramid		
+		pyramid := new Pyramid();
+		placeCardsInPyramid();
+		-- Put rest of cards on draw pile
+		drawPile := new Pile(deck);
+		-- Other piles start empty
+		wastePile  := new Pile();
+		wastePile2 := new Pile();
+
+		
+		-- Start Game
+		gameCycle();
+	)
+	post len deck.cards + len pyramid.cards = 52;
+	
+	---------------------
+	-- Print GameState --
+	---------------------
+	public print: () ==> ()
+	print() == 
+	(
+
+		-- Print Pyramid 
+		pyramid.print();
+		IO`print("\n");
+		-- Print Piles
+		
+		if (len wastePile.getCards() <> 0) then 
+		(
+			IO`print("Pile 1: ");
+			IO`print(wastePile.top());
+			IO`print("\n");
+		);
+		if (len wastePile2.getCards() <> 0) then 
+		(
+			IO`print("Pile 2: ");
+			IO`print(wastePile2.top());
+			IO`print("\n");
+		)	;
+		
+--		IO`print("Select \n1: turn card from draw pile\n2: select a card \n");
+	
+	);
+	
+	----------------
+	-- Game Cycle --
+	----------------
+	public gameCycle: () ==> ()
+	gameCycle() == 
+	(
+	--	while (gameOver <> true) do 
+		(
+			-- Print Pyramid
+			print();
+			
+			-- Get Player's Move
+			-- getPlayerMove();
+			-- Validate It
+			-- validatePlay();
+			-- Check if Game is Over
+			-- checkGameOver();
+		
+		)
+	
+	);
+	
+	
+	
+	------------------
+	-- Shuffle Deck --
+	------------------
+	public shuffleDeck: () ==> ()
+	shuffleDeck() == 
+	(
+			dcl newIndex : nat1;
+    	dcl temp : Card;
+    	
+    	for i = 1 to len deck.cards do 
+    	(
+    		temp := deck.cards(i);
+    		newIndex := MATH`rand(52) + 1;
+    		deck.cards(i) := deck.cards(newIndex);
+    		deck.cards(newIndex) := temp;
+    	);
+	)
+	post len deck.cards = 52;
+	
+	---------------
+	-- Draw Card --
+	---------------
+	public drawCard: () ==> ()
+		drawCard() ==
+		(
+			dcl drawnCard : Card := drawPile.draw();
+			if (len wastePile.getCards() <> 0) then (
+				dcl temp : Card := wastePile.draw();
+				wastePile2.push(temp);
+			);
+			 wastePile.push(drawnCard)
+		);
+--		pre len drawPile.getCards() <> 0;
+	-- post
+	
+	
+	----------------
+	-- Pair Cards --
+	----------------
+	public pairCards: Card * Card ==> ()
+	pairCards(c1, c2) == 
+	(	
+		-- Check if card sum is 13
+		if c1.getScore() + c2.getScore() = 13 
+			then  IO`print("pair\n")
+		else IO`print("not pair\n");
+		-- Delete cards and return true
+	 );
+	-- post len deck.cards  = 52;
+	 
+	 ----------------
+	 -- Print Deck --
+	 ----------------
+	 public printDeck: () ==> ()
+	 printDeck() == 
+	 (	
+	 		IO`print("\n");
+			for i = 1 to len deck.cards do
+			(
+				 IO`print(deck.cards(i).getRank());
+				 IO`print(" ");
+				 IO`print(deck.cards(i).getSuit());
+				 IO`print("\n");
+			)
+		);
+		-- POST 
+		
+		----------------------------
+		-- Place Cards in Pyramid --
+		----------------------------
+		public placeCardsInPyramid: () ==> ()
+			placeCardsInPyramid() == 
+			(				
+			  while len pyramid.getCards() < 28 do 
+			  (
+			  	dcl tempCard : Card := deck.takeCard();
+			  	--IO`print(tempCard);
+			  	pyramid.placeCard(tempCard);
+			  )
+			)
+		post len deck.cards + len pyramid.cards = 52;
+	
+		-------------------------------
+		-- Check if the game is over --
+		-------------------------------
+--	public checkGameOver: () ==> bool
+--		checkGameOver() ==
+--		(
+--			dcl freeCards : seq of Card;
+--			dcl pyramidCards : seq of Card := pyramid.getCards();
+			
+		--	for i = 1 to len pyramidCards do 
+		--	(
+		--		if 
+		--	)
+			
+--		)
+		
+	
+	
+functions
+
+traces
+
+
+end Game
