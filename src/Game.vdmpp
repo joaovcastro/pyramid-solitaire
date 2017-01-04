@@ -176,21 +176,27 @@ operations
 			)
 		post len deck.cards + len pyramid.cards = 52;
 	
+		---------------
+		-- Make Play --
+		---------------
+		public makePlay : Card * Card ==> bool
+		makePlay(card1, card2) ==
+		(
+			if card1.getScore() = 13 then return true
+			elseif card1.getScore() + card2.getScore() = 13 then return true
+			else return false
+		);
+		
+		
 		-------------------------------
 		-- Check if the game is over --
 		-------------------------------
---	public checkGameOver: () ==> bool
---		checkGameOver() ==
---		(
---			dcl freeCards : seq of Card;
---			dcl pyramidCards : seq of Card := pyramid.getCards();
-			
-		--	for i = 1 to len pyramidCards do 
-		--	(
-		--		if 
-		--	)
-			
---		)
+		public checkGameOver: () ==> bool 
+		checkGameOver() ==
+		(
+			if len pyramid.getCards() = 0 then return true;			
+			return true;
+		)
 		
 	
 	
