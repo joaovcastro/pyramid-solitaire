@@ -195,7 +195,7 @@ operations
 		public checkGameOver: () ==> bool 
 		checkGameOver() ==
 		(
-			if len pyramid.getCards() = 0 then return true;			
+			if pyramid.getPyramidSize() = 0 then return true;			
 			return true;
 		)
 		
