@@ -111,7 +111,6 @@ operations
     		deck.cards(newIndex) := temp;
     	);
 	)
-	pre len deck.cards = 52
 	post len deck.cards = 52;
 	
 	---------------

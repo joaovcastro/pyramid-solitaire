@@ -62,8 +62,7 @@ class Pyramid
 				   	)
 				   	else
 				   	(
-				   		IO`print(" ");
-				   		IO`print("   ");
+				   		IO`print("        ");
 				   		IO`print("        ");
 				   		index := index +1;
 				   	)
@@ -145,7 +144,7 @@ class Pyramid
 		public getCardIndex : nat * nat ==> nat
 		getCardIndex(row, col) ==
 		(
-			dcl index : nat := 1;
+			dcl index : nat := 0;
 			for i = 1 to col do
 			(
 				for j = 1 to i do
@@ -178,22 +177,5 @@ class Pyramid
 			elseif rnk = "Q"  then return 12
 			else return 13;
 		);
-		
-		public getPyramidSize: () ==> nat
-		getPyramidSize() ==
-		(
-			dcl index : nat := 1;
-			dcl count : nat := 0;
-			for i = 1 to numRows do
-			(
-				for j = 1 to i do
-				(
-					if cards(index).getScore() > 0 then count := count + 1;
-					index := index + 1;
-				)
-			);
-			return count;
-		
-		)
 		
 end Pyramid

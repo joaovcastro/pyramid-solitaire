@@ -11,6 +11,8 @@ instance variables
 	public wastePile: Pile;
 	-- The second waste pile
 	public wastePile2: Pile;
+	-- The player's score
+	private score: int;
 	-- Control Variable for game over
 	private gameOver: bool := false;
 operations
@@ -34,7 +36,8 @@ operations
 		-- Other piles start empty
 		wastePile  := new Pile();
 		wastePile2 := new Pile();
-
+		-- Player starts with score 0
+		score := 0;
 		
 		-- Start Game
 		gameCycle();
@@ -47,7 +50,10 @@ operations
 	public print: () ==> ()
 	print() == 
 	(
-
+		-- Print Score
+		IO`print("Score : ");
+		IO`print(score);
+		IO`print("\n");
 		-- Print Pyramid 
 		pyramid.print();
 		IO`print("\n");
@@ -111,7 +117,6 @@ operations
     		deck.cards(newIndex) := temp;
     	);
 	)
-	pre len deck.cards = 52
 	post len deck.cards = 52;
 	
 	---------------
@@ -175,30 +180,16 @@ operations
 			  	pyramid.placeCard(tempCard);
 			  )
 			)
-		post len deck.cards + len pyramid.cards = 52;
+		post len deck.cards + len pyramid.cards = 52
 	
-		---------------
-		-- Make Play --
-		---------------
-		public makePlay : Card * Card ==> bool
-		makePlay(card1, card2) ==
-		(
-			if card1.getScore() = 13 then return true
-			elseif card1.getScore() + card2.getScore() = 13 then return true
-			else return false
-		);
+	
+		-----------------
+		-- Select Card --
+		-----------------
 		
-		
-		-------------------------------
-		-- Check if the game is over --
-		-------------------------------
-		public checkGameOver: () ==> bool 
-		checkGameOver() ==
-		(
-			if len pyramid.getCards() = 0 then return true;			
-			return true;
-		)
-		
+		-----------------
+		-- Select Card --
+		-----------------
 	
 	
 functions

@@ -43,7 +43,7 @@ class Card
 		---------------
 		-- Get Score --
 		---------------
-		public getScore: () ==> nat
+		public getScore: () ==> nat1
 		getScore() ==
 		(
 			return score;
