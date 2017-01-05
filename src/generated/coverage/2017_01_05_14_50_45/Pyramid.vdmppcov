@@ -33,7 +33,7 @@ class Pyramid
 		---------------
 		public getCards: () ==> seq of Card
 			getCards() == return cards
-		pre len cards >= 0;
+			pre len cards > 0;
 		
 		----------------------------------------	
 		-- Delete Card -> when pairs are done --
