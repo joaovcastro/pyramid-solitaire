@@ -180,6 +180,20 @@ operations
 		----------------------------
 		-- Check for card in Pile --
 		----------------------------
+		
+		private makePlay :(seq of char) * char ==> Card
+		makePlay(rank, suit) == 
+		(
+			dcl score : nat := pyramid.convertRank(rank);
+			if checkCardPile(rank, suit) = true or pyramid.selectCard(rank, suit) = true then
+				return new Card(score, suit)
+			else return new Card();
+		);
+		
+		----------------------------
+		-- Check for card in Pile --
+		----------------------------		
+		
 		private checkCardPile :(seq of char) * char ==> bool
 		checkCardPile(rank, suit) == 
 		(
