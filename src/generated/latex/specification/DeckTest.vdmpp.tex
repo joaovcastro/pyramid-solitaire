@@ -1,0 +1,41 @@
+\begin{vdmpp}[breaklines=true]
+class DeckTest
+
+ instance variables
+ 
+   deck : Deck := new Deck();
+   private takenCard : Card := new Card();
+   
+   
+ operations
+ 
+(*@
+\label{assertTrue:11}
+@*)
+    private assertTrue: bool ==> ()
+     assertTrue(cond) == return
+    pre cond;
+            
+(*@
+\label{testTakeCard:15}
+@*)
+    private testTakeCard: () ==> ()
+    testTakeCard() ==
+    (
+     assertTrue(len deck.cards = 52);
+     takenCard := deck.takeCard();
+      assertTrue(len deck.cards = 51);
+    );
+    
+   
+(*@
+\label{main:24}
+@*)
+    public static main: () ==> ()
+    main() ==
+    (
+       new DeckTest().testTakeCard();     
+    );
+    
+end DeckTest
+\end{vdmpp}

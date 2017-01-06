@@ -1,0 +1,103 @@
+\begin{vdmpp}[breaklines=true]
+class Pile
+
+
+ instance variables
+ 
+  public cards : seq of Card := [];
+  public numCards : nat;
+  inv len cards <= 52;
+ 
+  
+ operations
+ 
+  -----------------
+  -- Constructor --
+  -----------------
+(*@
+\label{Pile:16}
+@*)
+  public Pile: () ==> Pile
+  Pile() == 
+  (
+   numCards := 0;
+   return self
+  )
+  post cards = [] and numCards = 0;
+  
+  --------------------------------------------------
+  -- Pile with remainder of deck -> for draw pile --
+  --------------------------------------------------
+  public Pile: Deck ==> Pile
+  Pile (deck) == 
+  (
+   cards := deck.cards;
+   return self;
+  )
+  post len cards = len deck.cards;
+  
+  ----------------------
+  -- Put card in pile --
+  ----------------------
+(*@
+\label{push:38}
+@*)
+  public push: Card ==> ()
+   push(x) == 
+   (
+    cards := [x] ^ cards;
+    numCards := numCards + 1;
+   )
+  post cards = [x] ^ cards~;
+  
+  --------------------------------
+  -- Take card from top of pile --
+  --------------------------------
+(*@
+\label{pop:49}
+@*)
+  public pop: () ==> ()
+   pop() == cards := tl cards
+  pre cards <> []
+  post cards = tl cards~;
+  
+  -----------------------
+  -- Get card from top --
+  -----------------------
+(*@
+\label{top:57}
+@*)
+  public top: () ==> Card
+   top() == return hd cards
+  pre cards <> []
+  post RESULT = hd cards;
+  
+  --------------------------------------------
+  -- Take a card from the top and return it --
+  --------------------------------------------
+(*@
+\label{draw:65}
+@*)
+  public draw: () ==> Card
+   draw() == 
+   (
+    dcl drawn: Card := hd cards;
+    cards := tl cards;
+    return drawn;
+   )
+  pre cards <> []
+  post (cards = tl cards~);
+  
+  ---------------
+  -- Get cards --
+  ---------------
+(*@
+\label{getCards:78}
+@*)
+  public getCards: () ==> seq of Card
+  getCards() == return cards;
+  
+
+  
+end Pile
+\end{vdmpp}

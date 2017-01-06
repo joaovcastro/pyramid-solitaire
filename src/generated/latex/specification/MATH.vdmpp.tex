@@ -1,0 +1,175 @@
+\begin{vdmpp}[breaklines=true]
+class MATH
+
+--  Overture STANDARD LIBRARY: MATH
+--      --------------------------------------------
+-- 
+-- Standard library for the Overture Interpreter. When the interpreter
+-- evaluates the preliminary functions/operations in this file,
+-- corresponding internal functions is called instead of issuing a run
+-- time error. Signatures should not be changed, as well as name of
+-- module (VDM-SL) or class (VDM++). Pre/post conditions is 
+-- fully user customisable. 
+-- Dont care's may NOT be used in the parameter lists.
+
+  functions
+public static
+(*@
+\label{sin:16}
+@*)
+    sin:real +> real
+    sin(v) ==
+    is not yet specified    
+    post abs RESULT <= 1;
+
+public static
+(*@
+\label{cos:22}
+@*)
+    cos:real +> real
+    cos(v) ==
+    is not yet specified
+    post abs RESULT <= 1;
+
+public static
+(*@
+\label{tan:28}
+@*)
+    tan:real -> real
+    tan(a) ==
+    is not yet specified
+    pre cos(a) <> 0;
+
+public static
+(*@
+\label{cot:34}
+@*)
+    cot:real -> real 
+    cot(a) ==
+    is not yet specified -- Could also be: 1/tan(r)
+    pre sin(a) <> 0;
+
+public static
+(*@
+\label{asin:40}
+@*)
+    asin:real -> real
+    asin(a) ==
+    is not yet specified
+    pre abs a <= 1;
+
+public static
+(*@
+\label{acos:46}
+@*)
+    acos:real -> real
+    acos(a) ==
+    is not yet specified
+    pre abs a <= 1;
+
+public static
+(*@
+\label{atan:52}
+@*)
+    atan:real +> real
+    atan(v) ==
+    is not yet specified;
+
+public static
+(*@
+\label{acot:57}
+@*)
+    acot:real +> real
+    acot(a) ==
+    atan(1/a)
+    pre a <> 0;
+
+public static
+(*@
+\label{sqrt:63}
+@*)
+    sqrt:real -> real
+    sqrt(a) ==
+    is not yet specified
+    pre a >= 0;
+
+public static
+(*@
+\label{pi:f:69}
+@*)
+    pi_f:() +> real
+    pi_f () ==
+    is not yet specified
+
+  operations
+
+public static
+(*@
+\label{srand:76}
+@*)
+    srand:int ==> ()
+    srand(a) ==
+    let - = MATH`srand2(a) in skip
+    pre a >= -1;
+
+public static
+(*@
+\label{rand:82}
+@*)
+    rand:int ==> int 
+    rand(a) ==
+    is not yet specified;
+
+public static
+(*@
+\label{srand2:87}
+@*)
+    srand2:int ==> int 
+    srand2(a) ==
+    is not yet specified
+    pre a >= -1
+
+  functions
+
+public static
+(*@
+\label{exp:95}
+@*)
+    exp:real +> real
+    exp(a) ==
+    is not yet specified;
+
+public static
+(*@
+\label{ln:100}
+@*)
+    ln:real -> real
+    ln(a) ==
+    is not yet specified
+    pre a > 0;
+
+public static
+(*@
+\label{log:106}
+@*)
+    log:real -> real
+    log(a) ==
+    is not yet specified
+    pre a > 0;
+
+public static 
+(*@
+\label{fac:112}
+@*)
+    fac:nat -> nat1 
+    fac(a) == 
+    is not yet specified 
+    pre a < 21;         -- The limit for 64-bit calculations
+
+  values
+public
+    pi = 3.14159265358979323846
+
+ 
+end MATH
+\end{vdmpp}

@@ -1,0 +1,326 @@
+\begin{vdmpp}[breaklines=true]
+class Game
+
+instance variables
+ -- The game's deck
+ public deck: Deck;
+ -- The Pyramid
+ public pyramid: Pyramid;
+ -- The draw pile
+ public drawPile: Pile;
+ -- The first waste pile
+ public wastePile: Pile;
+ -- The second waste pile
+ public wastePile2: Pile;
+ -- Control Variable for game over
+ private gameOver: bool := false;
+operations
+
+ -----------------
+ -- Constructor --
+ -----------------
+(*@
+\label{Game:21}
+@*)
+ public Game: () ==> Game
+ Game() == 
+ ( 
+
+  -- Create Deck
+  deck := new Deck();
+  -- Shuffle It  
+  shuffleDeck();
+  -- Take 28 cards for Pyramid  
+  pyramid := new Pyramid();
+  placeCardsInPyramid();
+  -- Put rest of cards on draw pile
+  drawPile := new Pile(deck);
+  -- Other piles start empty
+  wastePile  := new Pile();
+  wastePile2 := new Pile();
+
+  
+  -- Start Game
+  gameCycle();
+ )
+ post len deck.cards + len pyramid.cards = 52;
+ 
+ ---------------------
+ -- Print GameState --
+ ---------------------
+(*@
+\label{print:47}
+@*)
+ public print: () ==> ()
+ print() == 
+ (
+
+  -- Print Pyramid 
+  pyramid.print();
+  IO`print("\n");
+  -- Print Piles
+  
+  if (len wastePile.getCards() <> 0) then 
+  (
+   IO`print("Pile 1: ");
+   IO`print(wastePile.top());
+   IO`print("\n");
+  );
+  if (len wastePile2.getCards() <> 0) then 
+  (
+   IO`print("Pile 2: ");
+   IO`print(wastePile2.top());
+   IO`print("\n");
+  ) ;
+  
+--  IO`print("Select \n1: turn card from draw pile\n2: select a card \n");
+ 
+ );
+ 
+ ----------------
+ -- Game Cycle --
+ ----------------
+(*@
+\label{gameCycle:76}
+@*)
+ public gameCycle: () ==> ()
+ gameCycle() == 
+ (
+ -- while (gameOver <> true) do 
+  (
+   -- Print Pyramid
+   print();
+   
+   -- Get Player's Move
+   -- getPlayerMove();
+   -- Validate It
+   -- validatePlay();
+   -- Check if Game is Over
+   -- checkGameOver();
+  
+  )
+ 
+ );
+ 
+ 
+ 
+ ------------------
+ -- Shuffle Deck --
+ ------------------
+(*@
+\label{shuffleDeck:100}
+@*)
+ public shuffleDeck: () ==> ()
+ shuffleDeck() == 
+ (
+   dcl newIndex : nat1;
+     dcl temp : Card;
+     
+     for i = 1 to len deck.cards do 
+     (
+      temp := deck.cards(i);
+      newIndex := MATH`rand(52) + 1;
+      deck.cards(i) := deck.cards(newIndex);
+      deck.cards(newIndex) := temp;
+     );
+ )
+ pre len deck.cards = 52
+ post len deck.cards = 52;
+ 
+ ---------------
+ -- Draw Card --
+ ---------------
+(*@
+\label{drawCard:120}
+@*)
+ public drawCard: () ==> ()
+  drawCard() ==
+  (
+   dcl drawnCard : Card := drawPile.draw();
+   if (len wastePile.getCards() <> 0) then (
+    dcl temp : Card := wastePile.draw();
+    wastePile2.push(temp);
+   );
+    wastePile.push(drawnCard)
+  )
+ pre len drawPile.cards <> 0
+ post drawPile.cards <> drawPile~.cards;
+ 
+ 
+ ----------------
+ -- Pair Cards --
+ ----------------
+(*@
+\label{pairCards:137}
+@*)
+ public pairCards: Card * Card ==> ()
+ pairCards(c1, c2) == 
+ ( 
+  -- Check if card sum is 13
+  if c1.getScore() + c2.getScore() = 13 
+   then  IO`print("pair\n")
+  else IO`print("not pair\n");
+  -- Delete cards and return true
+  );
+ -- post len deck.cards  = 52;
+  
+  ----------------
+  -- Print Deck --
+  ----------------
+(*@
+\label{printDeck:151}
+@*)
+  public printDeck: () ==> ()
+  printDeck() == 
+  ( 
+    IO`print("\n");
+   for i = 1 to len deck.cards do
+   (
+     IO`print(deck.cards(i).getRank());
+     IO`print(" ");
+     IO`print(deck.cards(i).getSuit());
+     IO`print("\n");
+   )
+  );
+  -- POST 
+  
+  ----------------------------
+  -- Place Cards in Pyramid --
+  ----------------------------
+(*@
+\label{placeCardsInPyramid:168}
+@*)
+  private placeCardsInPyramid: () ==> ()
+   placeCardsInPyramid() == 
+   (    
+     while len pyramid.getCards() < 28 do 
+     (
+      dcl tempCard : Card := deck.takeCard();
+      --IO`print(tempCard);
+      pyramid.placeCard(tempCard);
+     )
+   )
+  pre len deck.cards = 52
+  post len deck.cards = 24 and len pyramid.cards = 28;
+ 
+  
+  --------------------------------------------
+  -- Gameplay - Player tries to make a move --
+  --------------------------------------------
+
+(*@
+\label{tryPlay:186}
+@*)
+   public tryPlay : seq of Play ==> ()
+   tryPlay(cards) ==
+   (
+     if validatePlay(cards) = true then 
+     (
+      makePlay(cards);
+      IO`print("Success");
+     )
+     else IO`print("Invalid Play")  ;
+   );
+  -- Pre post
+  
+  ---------------------------------------
+  -- Gameplay - check if play is valid --
+  ---------------------------------------
+(*@
+\label{validatePlay:201}
+@*)
+  public validatePlay : seq of Play ==> bool
+  validatePlay(cards) ==
+  (
+   dcl total : nat := 0;
+   -- Check if the cards are available
+   for i = 1 to len cards do 
+   (
+    if checkCardPile(cards(i).rank, cards(i).suit) = 1 or
+     checkCardPile(cards(i).rank, cards(i).suit) = 2
+    or pyramid.checkCard(cards(i).rank, cards(i).suit) = true 
+    then total := total + pyramid.convertRank(cards(i).rank)
+   );
+   
+   -- Check if their sum is 13
+   if total = 13 then return true
+   else return false
+  );
+  -- pre post
+  
+  -----------------------------
+  -- Gameplay - Remove cards --
+  -----------------------------
+  
+(*@
+\label{makePlay:224}
+@*)
+  public makePlay : seq of Play ==> ()
+  makePlay(cards) == 
+  (
+   
+   for i = 1 to len cards do
+   (
+    if pyramid.removeCard(cards(i).rank, cards(i).suit) = false then
+    (
+     if checkCardPile(cards(i).rank, cards(i).suit) = 1 then 
+      wastePile.pop()
+     elseif checkCardPile(cards(i).rank, cards(i).suit) = 2 then 
+      wastePile2.pop();
+    )
+   );
+   return;
+  );
+ -- pre Playrank in set {"A","2","3","4","5","6","7","8","9","10","J","Q","K"}
+ --  and suit in set {'C','S','H','D'};
+  
+  ----------------------------
+  -- Check for card in Pile --
+  ----------------------------  
+  
+(*@
+\label{checkCardPile:247}
+@*)
+  private checkCardPile :(seq of char) * char ==> nat
+  checkCardPile(rank, suit) == 
+  (
+   dcl score : nat := pyramid.convertRank(rank);
+   if len wastePile.getCards() <> 0 and wastePile.top().getScore() = score and wastePile.top().getSuit() = suit then
+   (
+    --
+    return 1;
+   )
+   elseif len wastePile2.getCards() <> 0 and wastePile2.top().getScore() = score and wastePile2.top().getSuit() = suit then
+   (
+    --wastePile2.pop();
+    return 2;
+   )
+   else 
+   return 0;
+   )
+   pre rank in set {"A","2","3","4","5","6","7","8","9","10","J","Q","K"}
+   and suit in set {'C','S','H','D'};
+ 
+  
+  -------------------------------
+  -- Check if the game is over --
+  -------------------------------
+(*@
+\label{checkGameOver:271}
+@*)
+  public checkGameOver: () ==> bool 
+  checkGameOver() ==
+  (
+   if pyramid.getPyramidSize() = 0 then return true;   
+   return false;
+  )
+  
+ 
+ 
+functions
+
+traces
+
+
+end Game
+\end{vdmpp}

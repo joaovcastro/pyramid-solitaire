@@ -1,0 +1,63 @@
+\begin{vdmpp}[breaklines=true]
+class Deck
+ instance variables
+  public cards : seq of Card;
+  public cardTemp : Card;
+ operations
+  -----------------
+  -- Constructor --
+  -----------------
+(*@
+\label{Deck:9}
+@*)
+  public Deck: () ==> Deck
+   Deck() == (
+    cards := []; 
+
+    for i = 1 to 13 do
+    (
+     cardTemp := new Card(i, 'S');
+     cards := cards ^ [cardTemp];
+     cardTemp := new Card(i, 'C');
+     cards := cards ^ [cardTemp];
+     cardTemp := new Card(i, 'H');
+     cards := cards ^ [cardTemp];
+     cardTemp := new Card(i, 'D');
+     cards := cards ^ [cardTemp];
+    );
+    return self;
+   )
+  post len cards = 52;
+  
+  
+  -- Take a card
+(*@
+\label{takeCard:30}
+@*)
+  public takeCard: () ==> Card
+   takeCard() == 
+   (
+    dcl drawn: Card := hd cards;
+    cards := tl cards;
+    return drawn;
+   )
+  pre cards <> []
+  post (cards = tl cards~) and RESULT = hd cards~;  
+  
+  -- Print deck [for debug]
+(*@
+\label{printDeck:41}
+@*)
+  public printDeck: () ==> ()
+  printDeck() == 
+  (
+   IO`print(cards);
+  )
+  pre cards <> [];
+  
+ functions
+ -- TODO Define functiones here
+ traces
+ -- TODO Define Combinatorial Test Traces here
+end Deck
+\end{vdmpp}
