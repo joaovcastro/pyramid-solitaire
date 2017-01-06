@@ -1,0 +1,90 @@
+class Card
+
+	instance variables
+		-- Every card has a suit, a value and a score
+		-- Suits: S-> Spades, C->Clubs, H->Hearts, D->Diamonds
+		private rank: char;
+		private suit: char;
+		private score: nat;	
+		
+	operations
+	
+		-- Constructor
+		public Card: nat1 * char ==> Card
+		Card(sc,su) ==
+		(
+			score := sc;
+			suit := su;
+		
+			if sc = 1 then rank := 'A'
+			elseif sc = 11 then rank := 'J'
+			elseif sc = 12 then rank := 'Q'
+			elseif sc = 13 then rank := 'K'
+			else rank := 'N';
+			
+			return self
+		)
+		pre sc < 14 and sc > 0
+		post suit = su and score = sc;
+		
+		-------------------------------------------
+		-- Empty Space -> when cards are deleted --
+		-------------------------------------------	
+		public Card : () ==> Card
+		Card() ==
+		(
+			rank := '0';
+			suit := '0';
+			score := 0;
+			return self;
+		)
+		post rank = '0' and suit = '0' and score = 0;
+		
+			
+		---------------
+		-- Get Score --
+		---------------
+		public getScore: () ==> nat
+		getScore() ==
+		(
+			return score;
+		);
+		
+		
+		--------------
+		-- Get Rank --
+		--------------
+		public getRank: () ==> seq of char
+		getRank() ==
+		(
+			if score = 1 then return "A"
+			elseif score = 2 then return "2"
+			elseif score = 3 then return "3"
+			elseif score = 4 then return "4"
+			elseif score = 5 then return "5"
+			elseif score = 6 then return "6"
+			elseif score = 7 then return "7"
+			elseif score = 8 then return "8"
+			elseif score = 9 then return "9"
+			elseif score = 10 then return "10"
+			elseif score = 11  then return "J"
+			elseif score = 12  then return "Q"
+			else return "K";
+		);
+		
+		
+		--------------
+		-- Get Suit --
+		--------------
+		public getSuit: () ==> char
+		getSuit() ==
+		(
+			return suit;
+		);
+		
+		
+	functions
+	-- TODO Define functiones here
+	traces
+	-- TODO Define Combinatorial Test Traces here
+end Card

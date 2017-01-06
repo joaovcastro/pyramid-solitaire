@@ -23,7 +23,6 @@ public class Game {
     drawPile = new Pile(deck);
     wastePile = new Pile();
     wastePile2 = new Pile();
-    //gameCycle();
   }
 
   public Game() {
@@ -33,81 +32,59 @@ public class Game {
 
   public void print() {
 
-    pyramid.print();
-    //IO.print("\n");
-    System.out.print("\n");
-    if (!(Utils.equals(wastePile.getCards().size(), 0L))) {
-      //IO.print("Pile 1: ");
-      System.out.print("Pile 1: ");
-      //IO.print(wastePile.top());
-      pyramid.printCard(wastePile.top());
-      //IO.print("\n");
-      System.out.print("\n");
-    }
+	  pyramid.print();
+	    //IO.print("\n");
+	    System.out.print("\n");
+	    if (!(Utils.equals(wastePile.getCards().size(), 0L))) {
+	      //IO.print("Pile 1: ");
+	      System.out.print("Pile 1: ");
+	      //IO.print(wastePile.top());
+	      pyramid.printCard(wastePile.top());
+	      //IO.print("\n");
+	      System.out.print("\n");
+	    }
 
-    if (!(Utils.equals(wastePile2.getCards().size(), 0L))) {
-      //IO.print("Pile 2: ");
-      System.out.print("Pile 2: ");
-      //IO.print(wastePile2.top());
-      pyramid.printCard(wastePile2.top());
-      //IO.print("\n");
-      System.out.print("\n");
-    }
+	    if (!(Utils.equals(wastePile2.getCards().size(), 0L))) {
+	      //IO.print("Pile 2: ");
+	      System.out.print("Pile 2: ");
+	      //IO.print(wastePile2.top());
+	      pyramid.printCard(wastePile2.top());
+	      //IO.print("\n");
+	      System.out.print("\n");
+	    }
   }
 
-  public void gameCycle() throws IOException, CloneNotSupportedException {
+  public void gameCycle() throws IOException {
+
 	  boolean done = false;
 	  while(!done) {
 		  print();
 		  System.out.print("\n");
 		  System.out.println("Please input your play");
 		  System.out.println("draw - To draw a card");
-		  System.out.println("<rank-suite>;<rank-suite>; (MAX 4 CARDS) - To make a play");
-		  
-		  
-		  Game tempgame = (Game) this.clone();
+		  System.out.println("<rank-suite>;<rank-suite>;...;(ex: 9-D;K-C) - To make a play");
 		  
 		  BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		  String input = br.readLine();
 		  String[] split1 = input.split(";");
 		  
-		  if(split1.length == 1) {
-			  String[] split2 = split1[0].split("-");
-			  
-			  String rank1 = split2[0];
-			  String suit1 = split2[1];
-			  
-			  Card card1 = makePlay(rank1,suit1.charAt(0));
-			  
-			  if(validatePlay(card1))
-				  System.out.println("SUCESS");
-			  else{
-				  System.out.println("Invalid Card combo!");
-				  //TODO FIX ON ERROR
-			  }
-				  
+		  if(split1[0].equals("draw")) {
+			  drawCard();
+			  System.out.println("DRAWING CARD!");
+			  break;
 		  }
-		  else if(split1.length == 2) {
-			  String[] split2 = split1[0].split("-");
-			  
-			  String rank1 = split2[0];
-			  String suit1 = split2[1];
-			  
-			  Card card1 = makePlay(rank1,suit1.charAt(0));
-			  
-			  if(validatePlay(card1))
-				  System.out.println("SUCESS");
-			  else{
-				  System.out.println("Invalid Card combo!");
-				  //TODO FIX ON ERROR
+		  else {
+			  VDMSeq plays = SeqUtil.seq();
+			  for(int i = 0 ; i < split1.length ; i++) {
+				  String[] split2 = split1[i].split("-");
+				  Play play = new Play(split2[0],split2[1].charAt(0));
+				  plays = SeqUtil.conc(Utils.copy(plays), SeqUtil.seq(play));
 			  }
-				  
+			  tryPlay(plays);
 		  }
-		  
 		  
 		  
 	  }
-    
   }
 
   public void shuffleDeck() {
@@ -173,120 +150,127 @@ public class Game {
     }
   }
 
-  public Card makePlay(final String rank, final Character suit) {
+  public void tryPlay(final VDMSeq cards) {
 
-    Number score = pyramid.convertRank(rank);
-    Boolean orResult_1 = false;
-
-    if (Utils.equals(checkCardPile(rank, suit), true)) {
-      orResult_1 = true;
-    } else {
-      orResult_1 = Utils.equals(pyramid.selectCard(rank, suit), true);
-    }
-
-    if (orResult_1) {
-      return new Card(score, suit);
+    if (Utils.equals(validatePlay(Utils.copy(cards)), true)) {
+      makePlay(Utils.copy(cards));
+      IO.print("Success");
 
     } else {
-      return new Card();
+      IO.print("Invalid Play");
     }
   }
 
-  private Boolean checkCardPile(final String rank, final Character suit) {
+  public Boolean validatePlay(final VDMSeq cards) {
+
+    Number total = 0L;
+    long toVar_4 = cards.size();
+
+    for (Long i = 1L; i <= toVar_4; i++) {
+      Boolean orResult_1 = false;
+
+      if (Utils.equals(
+          checkCardPile(((Play) Utils.get(cards, i)).rank, ((Play) Utils.get(cards, i)).suit),
+          1L)) {
+        orResult_1 = true;
+      } else {
+        Boolean orResult_2 = false;
+
+        if (Utils.equals(
+            checkCardPile(((Play) Utils.get(cards, i)).rank, ((Play) Utils.get(cards, i)).suit),
+            2L)) {
+          orResult_2 = true;
+        } else {
+          orResult_2 =
+              Utils.equals(
+                  pyramid.checkCard(
+                      ((Play) Utils.get(cards, i)).rank, ((Play) Utils.get(cards, i)).suit),
+                  true);
+        }
+
+        orResult_1 = orResult_2;
+      }
+
+      if (orResult_1) {
+        total =
+            total.longValue() + pyramid.convertRank(((Play) Utils.get(cards, i)).rank).longValue();
+      }
+    }
+    if (Utils.equals(total, 13L)) {
+      return true;
+
+    } else {
+      return false;
+    }
+  }
+
+  public void makePlay(final VDMSeq cards) {
+
+    long toVar_5 = cards.size();
+
+    for (Long i = 1L; i <= toVar_5; i++) {
+      if (Utils.equals(
+          pyramid.removeCard(((Play) Utils.get(cards, i)).rank, ((Play) Utils.get(cards, i)).suit),
+          false)) {
+        if (Utils.equals(
+            checkCardPile(((Play) Utils.get(cards, i)).rank, ((Play) Utils.get(cards, i)).suit),
+            1L)) {
+          wastePile.pop();
+        } else if (Utils.equals(
+            checkCardPile(((Play) Utils.get(cards, i)).rank, ((Play) Utils.get(cards, i)).suit),
+            2L)) {
+          wastePile2.pop();
+        }
+      }
+    }
+    return;
+  }
+
+  private Number checkCardPile(final String rank, final Character suit) {
 
     Number score = pyramid.convertRank(rank);
-    Boolean andResult_9 = false;
+    Boolean andResult_8 = false;
 
     if (!(Utils.equals(wastePile.getCards().size(), 0L))) {
-      Boolean andResult_10 = false;
+      Boolean andResult_9 = false;
 
       if (Utils.equals(wastePile.top().getScore(), score)) {
         if (Utils.equals(wastePile.top().getSuit(), suit)) {
+          andResult_9 = true;
+        }
+      }
+
+      if (andResult_9) {
+        andResult_8 = true;
+      }
+    }
+
+    if (andResult_8) {
+      return 1L;
+
+    } else {
+      Boolean andResult_10 = false;
+
+      if (!(Utils.equals(wastePile2.getCards().size(), 0L))) {
+        Boolean andResult_11 = false;
+
+        if (Utils.equals(wastePile2.top().getScore(), score)) {
+          if (Utils.equals(wastePile2.top().getSuit(), suit)) {
+            andResult_11 = true;
+          }
+        }
+
+        if (andResult_11) {
           andResult_10 = true;
         }
       }
 
       if (andResult_10) {
-        andResult_9 = true;
-      }
-    }
-
-    if (andResult_9) {
-      wastePile.pop();
-      return true;
-
-    } else {
-      Boolean andResult_11 = false;
-
-      if (!(Utils.equals(wastePile2.getCards().size(), 0L))) {
-        Boolean andResult_12 = false;
-
-        if (Utils.equals(wastePile2.top().getScore(), score)) {
-          if (Utils.equals(wastePile2.top().getSuit(), suit)) {
-            andResult_12 = true;
-          }
-        }
-
-        if (andResult_12) {
-          andResult_11 = true;
-        }
-      }
-
-      if (andResult_11) {
-        wastePile2.pop();
-        return true;
+        return 2L;
 
       } else {
-        return false;
+        return 0L;
       }
-    }
-  }
-
-  public Boolean validatePlay(final Card card1) {
-
-    if (Utils.equals(card1.getScore(), 13L)) {
-      return true;
-
-    } else {
-      return false;
-    }
-  }
-
-  public Boolean validatePlay(final Card card1, final Card card2) {
-
-    if (Utils.equals(card1.getScore().longValue() + card2.getScore().longValue(), 13L)) {
-      return true;
-
-    } else {
-      return false;
-    }
-  }
-
-  public Boolean validatePlay(final Card card1, final Card card2, final Card card3) {
-
-    if (Utils.equals(
-        card1.getScore().longValue() + card2.getScore().longValue() + card3.getScore().longValue(),
-        13L)) {
-      return true;
-
-    } else {
-      return false;
-    }
-  }
-
-  public Boolean validatePlay(
-      final Card card1, final Card card2, final Card card3, final Card card4) {
-
-    if (Utils.equals(
-        card1.getScore().longValue()
-            + card2.getScore().longValue()
-            + card3.getScore().longValue()
-            + card4.getScore().longValue(),
-        13L)) {
-      return true;
-
-    } else {
-      return false;
     }
   }
 
@@ -317,19 +301,19 @@ public class Game {
         + "}";
   }
   
-  
-  public static void main(String[] args) {
-		Game g = new Game();
-	    //new DeckTest().testTakeCard();
-		g.drawCard();
-		g.drawCard();
-		g.print();
-		
-		
+  public void gameLoop() {
+	  
   }
   
-  
-  
+  public static void main(String[] args) throws IOException {
+		Game g = new Game();
+	    //new DeckTest().testTakeCard();
+		while(!g.checkGameOver()) {
+			g.gameCycle();
+		}
+		
+		
+}
   
   
 }

@@ -19,9 +19,9 @@ public class DeckTest {
     assertTrue(Utils.equals(deck.cards.size(), 51L));
   }
 
-  public static void main(String[] args) {
-	Game g = new Game();
-    //new DeckTest().testTakeCard();
+  public static void main() {
+
+    new DeckTest().testTakeCard();
   }
 
   public DeckTest() {}

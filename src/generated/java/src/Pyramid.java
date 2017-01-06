@@ -36,39 +36,41 @@ public class Pyramid {
 
   public void print() {
 
-    Number index = 1L;
-    //IO.print("\n");
-    System.out.print("\n");
-    long toVar_5 = numRows.longValue();
+	  Number index = 1L;
+	    //IO.print("\n");
+	    System.out.print("\n");
+	    long toVar_7 = numRows.longValue();
 
-    for (Long i = 1L; i <= toVar_5; i++) {
-      long toVar_4 = i.longValue();
-      for (Long k = 1L; k <= toVar_5 - toVar_4  ; k++) {
-    	  System.out.print("    ");
-      }
+	    for (Long i = 1L; i <= toVar_7; i++) {
+	      long toVar_6 = i.longValue();
+	      for (Long k = 1L; k <= toVar_7 - toVar_6  ; k++) {
+	    	  System.out.print("    ");
+	      }
 
-      for (Long j = 1L; j <= toVar_4; j++) {
-        if (((Card) Utils.get(cards, index)).getScore().longValue() > 0L) {
-//          IO.print(((Card) Utils.get(cards, index)).getRank());
-//          IO.print(((Card) Utils.get(cards, index)).getSuit());
-        	printCard((Card) Utils.get(cards, index));
-          //IO.print("        ");
-          System.out.print("    ");
-          index = index.longValue() + 1L;
+	      for (Long j = 1L; j <= toVar_6; j++) {
+	        if (((Card) Utils.get(cards, index)).getScore().longValue() > 0L) {
+//	          IO.print(((Card) Utils.get(cards, index)).getRank());
+//	          IO.print(((Card) Utils.get(cards, index)).getSuit());
+	        	printCard((Card) Utils.get(cards, index));
+	          //IO.print("        ");
+	          System.out.print("    ");
+	          index = index.longValue() + 1L;
 
-        } else {
-          IO.print(" ");
-          IO.print("   ");
-          IO.print("        ");
-          index = index.longValue() + 1L;
-        }
-      }
-      //IO.print("\n");
-      System.out.print("\n\n");
-    }
+	        } else {
+	          //IO.print(" ");
+	          //IO.print("   ");
+	          //IO.print("        ");
+	        	System.out.print("    ");
+	        	System.out.print("    ");
+	        	index = index.longValue() + 1L;
+	        }
+	      }
+	      //IO.print("\n");
+	      System.out.print("\n\n");
+	    }
   }
 
-  public Boolean selectCard(final String rank, final Character suit) {
+  public Boolean checkCard(final String rank, final Character suit) {
 
     Number index = 1L;
     Number row = 1L;
@@ -76,45 +78,27 @@ public class Pyramid {
     Boolean found = false;
     Card tempCard = null;
     Number score = convertRank(rank);
-    long toVar_7 = numRows.longValue();
+    long toVar_9 = numRows.longValue();
 
-    for (Long i = 1L; i <= toVar_7; i++) {
-      long toVar_6 = i.longValue();
+    for (Long i = 1L; i <= toVar_9; i++) {
+      long toVar_8 = i.longValue();
 
-      for (Long j = 1L; j <= toVar_6; j++) {
-        Boolean andResult_24 = false;
+      for (Long j = 1L; j <= toVar_8; j++) {
+        Boolean andResult_16 = false;
 
         if (Utils.equals(((Card) Utils.get(cards, index)).getScore(), score)) {
           if (Utils.equals(((Card) Utils.get(cards, index)).getSuit(), suit)) {
-            andResult_24 = true;
+            andResult_16 = true;
           }
         }
 
-        if (andResult_24) {
+        if (andResult_16) {
           tempCard = ((Card) Utils.get(cards, index));
           row = i;
           col = j;
-          found = true;
-          IO.print("row: ");
-          IO.print(row);
-          IO.print("     col: ");
-          IO.print(col);
-          IO.print("     index: ");
-          IO.print(index);
-          IO.print("     Score: ");
-          IO.print(tempCard.getScore());
-          IO.print("     Suit: ");
-          IO.print(tempCard.getSuit());
-          IO.print("\n");
           if (checkValidCard(row, col)) {
-            IO.print("valid card \n");
-            Utils.mapSeqUpdate(cards, index, new Card());
-
-          } else {
-            IO.print("not Valid");
+            found = true;
           }
-
-          return found;
         }
 
         index = index.longValue() + 1L;
@@ -123,22 +107,51 @@ public class Pyramid {
     return found;
   }
 
+  public Boolean removeCard(final String rank, final Character suit) {
+
+    Number index = 1L;
+    Number score = convertRank(rank);
+    long toVar_11 = numRows.longValue();
+
+    for (Long i = 1L; i <= toVar_11; i++) {
+      long toVar_10 = i.longValue();
+
+      for (Long j = 1L; j <= toVar_10; j++) {
+        Boolean andResult_18 = false;
+
+        if (Utils.equals(((Card) Utils.get(cards, index)).getScore(), score)) {
+          if (Utils.equals(((Card) Utils.get(cards, index)).getSuit(), suit)) {
+            andResult_18 = true;
+          }
+        }
+
+        if (andResult_18) {
+          Utils.mapSeqUpdate(cards, index, new Card());
+          return true;
+        }
+
+        index = index.longValue() + 1L;
+      }
+    }
+    return false;
+  }
+
   public Boolean checkValidCard(final Number row, final Number col) {
 
     if (Utils.equals(row, 7L)) {
       return true;
 
     } else {
-      Boolean andResult_28 = false;
+      Boolean andResult_22 = false;
 
       if (Utils.equals(checkCardAtCoordinate(row.longValue() + 1L, col), false)) {
         if (Utils.equals(
             checkCardAtCoordinate(row.longValue() + 1L, col.longValue() + 1L), false)) {
-          andResult_28 = true;
+          andResult_22 = true;
         }
       }
 
-      if (andResult_28) {
+      if (andResult_22) {
         return true;
 
       } else {
@@ -160,22 +173,22 @@ public class Pyramid {
   public Number getCardIndex(final Number row, final Number col) {
 
     Number index = 1L;
-    long toVar_9 = col.longValue();
+    long toVar_13 = col.longValue();
 
-    for (Long i = 1L; i <= toVar_9; i++) {
-      long toVar_8 = i.longValue();
+    for (Long i = 1L; i <= toVar_13; i++) {
+      long toVar_12 = i.longValue();
 
-      for (Long j = 1L; j <= toVar_8; j++) {
+      for (Long j = 1L; j <= toVar_12; j++) {
         index = index.longValue() + 1L;
-        Boolean andResult_36 = false;
+        Boolean andResult_30 = false;
 
         if (Utils.equals(i, row)) {
           if (Utils.equals(j, col)) {
-            andResult_36 = true;
+            andResult_30 = true;
           }
         }
 
-        if (andResult_36) {
+        if (andResult_30) {
           return index;
         }
       }
@@ -230,12 +243,12 @@ public class Pyramid {
 
     Number index = 1L;
     Number count = 0L;
-    long toVar_11 = numRows.longValue();
+    long toVar_15 = numRows.longValue();
 
-    for (Long i = 1L; i <= toVar_11; i++) {
-      long toVar_10 = i.longValue();
+    for (Long i = 1L; i <= toVar_15; i++) {
+      long toVar_14 = i.longValue();
 
-      for (Long j = 1L; j <= toVar_10; j++) {
+      for (Long j = 1L; j <= toVar_14; j++) {
         if (((Card) Utils.get(cards, index)).getScore().longValue() > 0L) {
           count = count.longValue() + 1L;
         }
