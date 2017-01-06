@@ -35,23 +35,26 @@ public class Game {
 	  pyramid.print();
 	    //IO.print("\n");
 	    System.out.print("\n");
+	    System.out.print("Pile 1: ");
 	    if (!(Utils.equals(wastePile.getCards().size(), 0L))) {
 	      //IO.print("Pile 1: ");
-	      System.out.print("Pile 1: ");
+	      
 	      //IO.print(wastePile.top());
 	      pyramid.printCard(wastePile.top());
 	      //IO.print("\n");
-	      System.out.print("\n");
+	      
 	    }
-
+	    System.out.print("\n");
+	    System.out.print("Pile 2: ");
 	    if (!(Utils.equals(wastePile2.getCards().size(), 0L))) {
 	      //IO.print("Pile 2: ");
-	      System.out.print("Pile 2: ");
+	      
 	      //IO.print(wastePile2.top());
 	      pyramid.printCard(wastePile2.top());
 	      //IO.print("\n");
-	      System.out.print("\n");
+	      
 	    }
+	    System.out.print("\n");
   }
 
   public void gameCycle() throws IOException {
