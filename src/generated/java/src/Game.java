@@ -1,4 +1,7 @@
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.*;
 import org.overture.codegen.runtime.*;
 
@@ -20,7 +23,7 @@ public class Game {
     drawPile = new Pile(deck);
     wastePile = new Pile();
     wastePile2 = new Pile();
-    gameCycle();
+    //gameCycle();
   }
 
   public Game() {
@@ -31,25 +34,80 @@ public class Game {
   public void print() {
 
     pyramid.print();
-    IO.print("\n");
+    //IO.print("\n");
+    System.out.print("\n");
     if (!(Utils.equals(wastePile.getCards().size(), 0L))) {
-      IO.print("Pile 1: ");
-      IO.print(wastePile.top());
-      IO.print("\n");
+      //IO.print("Pile 1: ");
+      System.out.print("Pile 1: ");
+      //IO.print(wastePile.top());
+      pyramid.printCard(wastePile.top());
+      //IO.print("\n");
+      System.out.print("\n");
     }
 
     if (!(Utils.equals(wastePile2.getCards().size(), 0L))) {
-      IO.print("Pile 2: ");
-      IO.print(wastePile2.top());
-      IO.print("\n");
+      //IO.print("Pile 2: ");
+      System.out.print("Pile 2: ");
+      //IO.print(wastePile2.top());
+      pyramid.printCard(wastePile2.top());
+      //IO.print("\n");
+      System.out.print("\n");
     }
   }
 
-  public void gameCycle() {
-
-    {
-      print();
-    }
+  public void gameCycle() throws IOException, CloneNotSupportedException {
+	  boolean done = false;
+	  while(!done) {
+		  print();
+		  System.out.print("\n");
+		  System.out.println("Please input your play");
+		  System.out.println("draw - To draw a card");
+		  System.out.println("<rank-suite>;<rank-suite>; (MAX 4 CARDS) - To make a play");
+		  
+		  
+		  Game tempgame = (Game) this.clone();
+		  
+		  BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		  String input = br.readLine();
+		  String[] split1 = input.split(";");
+		  
+		  if(split1.length == 1) {
+			  String[] split2 = split1[0].split("-");
+			  
+			  String rank1 = split2[0];
+			  String suit1 = split2[1];
+			  
+			  Card card1 = makePlay(rank1,suit1.charAt(0));
+			  
+			  if(validatePlay(card1))
+				  System.out.println("SUCESS");
+			  else{
+				  System.out.println("Invalid Card combo!");
+				  //TODO FIX ON ERROR
+			  }
+				  
+		  }
+		  else if(split1.length == 2) {
+			  String[] split2 = split1[0].split("-");
+			  
+			  String rank1 = split2[0];
+			  String suit1 = split2[1];
+			  
+			  Card card1 = makePlay(rank1,suit1.charAt(0));
+			  
+			  if(validatePlay(card1))
+				  System.out.println("SUCESS");
+			  else{
+				  System.out.println("Invalid Card combo!");
+				  //TODO FIX ON ERROR
+			  }
+				  
+		  }
+		  
+		  
+		  
+	  }
+    
   }
 
   public void shuffleDeck() {
@@ -258,6 +316,19 @@ public class Game {
         + Utils.toString(gameOver)
         + "}";
   }
+  
+  
+  public static void main(String[] args) {
+		Game g = new Game();
+	    //new DeckTest().testTakeCard();
+		g.drawCard();
+		g.drawCard();
+		g.print();
+		
+		
+  }
+  
+  
   
   
   

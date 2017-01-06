@@ -37,17 +37,23 @@ public class Pyramid {
   public void print() {
 
     Number index = 1L;
-    IO.print("\n");
+    //IO.print("\n");
+    System.out.print("\n");
     long toVar_5 = numRows.longValue();
 
     for (Long i = 1L; i <= toVar_5; i++) {
       long toVar_4 = i.longValue();
+      for (Long k = 1L; k <= toVar_5 - toVar_4  ; k++) {
+    	  System.out.print("    ");
+      }
 
       for (Long j = 1L; j <= toVar_4; j++) {
         if (((Card) Utils.get(cards, index)).getScore().longValue() > 0L) {
-          IO.print(((Card) Utils.get(cards, index)).getRank());
-          IO.print(((Card) Utils.get(cards, index)).getSuit());
-          IO.print("        ");
+//          IO.print(((Card) Utils.get(cards, index)).getRank());
+//          IO.print(((Card) Utils.get(cards, index)).getSuit());
+        	printCard((Card) Utils.get(cards, index));
+          //IO.print("        ");
+          System.out.print("    ");
           index = index.longValue() + 1L;
 
         } else {
@@ -57,7 +63,8 @@ public class Pyramid {
           index = index.longValue() + 1L;
         }
       }
-      IO.print("\n");
+      //IO.print("\n");
+      System.out.print("\n\n");
     }
   }
 
@@ -247,5 +254,14 @@ public class Pyramid {
         + ", numRows := "
         + Utils.toString(numRows)
         + "}";
+  }
+  
+  public static void printCard(Card c) {
+	  
+	  String s = c.getRank() + "-" + c.getSuit();
+	  if(!c.getRank().equals("10"))
+		  System.out.print(" " + s);
+	  else
+	  System.out.print(s);
   }
 }
