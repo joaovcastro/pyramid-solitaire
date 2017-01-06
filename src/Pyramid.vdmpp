@@ -74,13 +74,14 @@ class Pyramid
 			)
 		post len cards = 28;
 		
-
-		
-		-----------------
-		-- Select Card --
-		-----------------
-		public selectCard : (seq of char) * char ==> bool
-			selectCard(rank, suit)  == 
+	
+	
+		-- Check if card is in pyramid and if its available --
+		-------------------------------
+		-- Remove cards from pyramid --
+		-------------------------------
+		public checkCard : (seq of char) * char ==> bool
+			checkCard(rank, suit)  == 
 			(
 				dcl index : nat := 1;
 				dcl row : nat1;
@@ -99,24 +100,11 @@ class Pyramid
 						  row := i;
 						  col := j;
 						  found := true;
-						  IO`print("row: ");
-						  IO`print(row);
-						  IO`print("     col: ");
-						  IO`print(col);
-						  IO`print("     index: ");
-						  IO`print(index);
-						  IO`print("     Score: ");
-						  IO`print(tempCard.getScore());
-						  IO`print("     Suit: ");
-						  IO`print(tempCard.getSuit());
-						  IO`print("\n");
 							if checkValidCard(row, col) then
 							( 
-								IO`print("valid card \n");
-								cards(index) := new Card();
+								return true;
 							)
-							else IO`print("not Valid");
-						  return found;
+							else return false;
 						 );
 						 index := index + 1;
 					)
@@ -125,6 +113,35 @@ class Pyramid
 			)
 			pre rank in set {"A","2","3","4","5","6","7","8","9","10","J","Q","K"}
 				and suit in set {'C','S','H','D'};
+		
+		-------------------------------
+		-- Remove cards from pyramid --
+		-------------------------------
+		public removeCard : (seq of char) * char ==> bool
+			removeCard(rank, suit)  == 
+			(
+				dcl index : nat := 1;
+				dcl score : nat := convertRank(rank);
+				
+				for i = 1 to numRows do
+				(
+					for j = 1 to i do
+					(
+						if cards(index).getScore() = score and cards(index).getSuit() = suit then
+						(
+							cards(index) := new Card();
+							return true;
+						);
+						 index := index + 1;
+					)
+				);
+				return false;
+			)
+			pre rank in set {"A","2","3","4","5","6","7","8","9","10","J","Q","K"}
+				and suit in set {'C','S','H','D'};
+			
+		
+			
 			
 			-- check if chosen card is valid (no descendants)
 			public checkValidCard : nat * nat ==> bool 

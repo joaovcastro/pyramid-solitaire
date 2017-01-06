@@ -178,86 +178,92 @@ operations
 		pre len deck.cards = 52
 		post len deck.cards = 24 and len pyramid.cards = 28;
 	
-		----------------------------
-		-- Check for card in Pile --
-		----------------------------
 		
-		public makePlay :(seq of char) * char ==> Card
-		makePlay(rank, suit) == 
+		--------------------------------------------
+		-- Gameplay - Player tries to make a move --
+		--------------------------------------------
+
+		 public tryPlay : seq of Play ==> ()
+		 tryPlay(cards) ==
+		 (
+		 		if validatePlay(cards) = true then 
+		 		(
+		 			makePlay(cards);
+		 			IO`print("Success");
+		 		)
+		 		else IO`print("Invalid Play")		;
+		 );
+		-- Pre post
+		
+		---------------------------------------
+		-- Gameplay - check if play is valid --
+		---------------------------------------
+		public validatePlay : seq of Play ==> bool
+		validatePlay(cards) ==
 		(
-			dcl score : nat := pyramid.convertRank(rank);
-			if checkCardPile(rank, suit) = true or pyramid.selectCard(rank, suit) = true then
-				return new Card(score, suit)
-			else return new Card();
-		)
+			dcl total : nat := 0;
+			-- Check if the cards are available
+			for i =0 to len cards do 
+			(
+				if checkCardPile(cards(i).rank, cards(i).suit) = 1 or
+				 checkCardPile(cards(i).rank, cards(i).suit) = 2
+				or pyramid.checkCard(cards(i).rank, cards(i).suit) = true 
+				then total := total + pyramid.convertRank(cards(i).rank)
+			);
+			
+			-- Check if their sum is 13
+			if total = 13 then return true
+			else return false
+		);
+		-- pre post
 		
-		pre rank in set {"A","2","3","4","5","6","7","8","9","10","J","Q","K"}
-			and suit in set {'C','S','H','D'};
+		-----------------------------
+		-- Gameplay - Remove cards --
+		-----------------------------
+		
+		public makePlay : seq of Play ==> ()
+		makePlay(cards) == 
+		(
+			
+			for i = 0 to len cards do
+			(
+				if pyramid.removeCard(cards(i).rank, cards(i).suit) = false then
+				(
+					if checkCardPile(cards(i).rank, cards(i).suit) = 1 then 
+						wastePile.pop()
+					elseif checkCardPile(cards(i).rank, cards(i).suit) = 2 then 
+						wastePile2.pop();
+				)
+			);
+			return;
+		);
+	--	pre Playrank in set {"A","2","3","4","5","6","7","8","9","10","J","Q","K"}
+	--		and suit in set {'C','S','H','D'};
 		
 		----------------------------
 		-- Check for card in Pile --
 		----------------------------		
 		
-		private checkCardPile :(seq of char) * char ==> bool
+		private checkCardPile :(seq of char) * char ==> nat
 		checkCardPile(rank, suit) == 
 		(
 			dcl score : nat := pyramid.convertRank(rank);
 			if len wastePile.getCards() <> 0 and wastePile.top().getScore() = score and wastePile.top().getSuit() = suit then
 			(
-				wastePile.pop();
-				return true;
+				--
+				return 1;
 			)
 			elseif len wastePile2.getCards() <> 0 and wastePile2.top().getScore() = score and wastePile2.top().getSuit() = suit then
 			(
-				wastePile2.pop();
-				return true;
+				--wastePile2.pop();
+				return 2;
 			)
 			else 
-			return false;
+			return 0;
 	 	)
 	 	pre rank in set {"A","2","3","4","5","6","7","8","9","10","J","Q","K"}
 			and suit in set {'C','S','H','D'};
 	
-		-------------------
-		-- Validate Play --
-		-------------------
-		
-		-- One Card
-		public validatePlay : Card ==> bool
-		validatePlay(card1) ==
-		(
-			if card1.getScore() = 13 then return true
-			else return false
-		);
-		
-	
-		-- Two Cards
-		public validatePlay : Card * Card ==> bool
-		validatePlay(card1, card2) ==
-		(
-			if card1.getScore() + card2.getScore() = 13 then return true
-			else return false
-		)
-		pre card1 <> card2;
-		
-		-- Three Cards
-		public validatePlay : Card * Card * Card ==> bool
-		validatePlay(card1, card2, card3) ==
-		(
-			if card1.getScore() + card2.getScore() + card3.getScore() = 13 then return true
-			else return false
-		)
-		pre card1 <> card2 and card1 <> card3 and card2 <> card3 ;
-		
-		-- Four Cards
-		public validatePlay : Card * Card * Card * Card ==> bool
-		validatePlay(card1, card2, card3, card4) ==
-		(
-			if card1.getScore() + card2.getScore() + card3.getScore() + card4.getScore() = 13 then return true
-			else return false
-		)
-		pre card1 <> card2 and card1 <> card3 and card1 <> card4 and card2 <> card3 and card2 <> card4 and card3 <> card4;
-		
 		
 		-------------------------------
 		-- Check if the game is over --
