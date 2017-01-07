@@ -1,0 +1,36 @@
+class CardTest
+
+	instance variables
+	  private testCard : Card;
+		 	
+	operations
+	
+  	private assertTrue: bool ==> ()
+    	assertTrue(cond) == return
+    pre cond;
+           
+           
+    private testEmptyCard: () ==> ()
+    testEmptyCard() ==
+    (
+    	testCard := new Card();
+    	assertTrue(testCard.getRank() = "0");
+    	assertTrue(testCard.getSuit() = '0');
+    	assertTrue(testCard.getScore() = 0);    
+    );
+    
+    private testCardValue: () ==> ()
+    testCardValue() ==
+    (
+    	testCard := new Card();
+    );
+    
+   
+    public static main: () ==> ()
+    main() ==
+    (
+       new CardTest().testEmptyCard();
+       new CardTest().testCardValue();     
+    );
+    
+end CardTest

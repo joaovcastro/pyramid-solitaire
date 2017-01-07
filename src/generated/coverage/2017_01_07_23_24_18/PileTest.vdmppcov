@@ -1,0 +1,79 @@
+class PileTest
+
+	instance variables
+	
+	 private deck : Deck := new Deck();
+	 private pile : Pile := new Pile(deck);
+	 private emptyPile : Pile := new Pile();
+	 private topCard : Card := new Card();
+	 private testSeq : seq of Card := [new Card(1, 'S'), new Card(2, 'S'), new Card(3, 'S')];
+	 	
+	operations
+	
+    private assertTrue: bool ==> ()
+    	assertTrue(cond) == return
+    pre cond;
+            
+    private testPush: () ==> ()
+    testPush() ==
+    (
+    	assertTrue(len emptyPile.cards = 0);
+    	emptyPile.push(new Card());
+      assertTrue(len emptyPile.cards = 1);
+    );
+    
+    private testPop: () ==> ()
+    testPop() ==
+    (
+    	assertTrue(len pile.cards = 52);
+    	pile.pop();
+      assertTrue(len pile.cards = 51);
+    );
+    
+    private testTop: () ==> ()
+    testTop() ==
+    (
+    	pile := new Pile(new Deck());
+    	topCard := pile.top();
+    	assertTrue(topCard.getRank() = "A");
+    	assertTrue(topCard.getSuit() = 'S');
+    	assertTrue(topCard.getScore() = 1);
+    );
+    
+    private testDraw: () ==> ()
+    testDraw() ==
+    (
+    
+    	dcl auxDeck : Deck := new Deck();
+    	dcl ace : Card := new Card(1, 'S');
+    	auxDeck.cards := testSeq;
+    	pile := new Pile(auxDeck);
+    	IO`print(pile.draw());
+ --     assertTrue(pile.draw() = ace);
+    );
+    
+    private testGetCards: () ==> ()
+    testGetCards() ==
+    (
+    	
+    	dcl auxDeck : Deck := new Deck();
+    	auxDeck.cards := testSeq;
+    	pile := new Pile(auxDeck);
+    	
+    	assertTrue(len pile.getCards() = 3);
+    	assertTrue(pile.getCards() = testSeq);
+    );
+    
+   
+    public static main: () ==> ()
+    main() ==
+    (
+       new PileTest().testPush();
+       new PileTest().testPop();
+       new PileTest().testTop();
+       new PileTest().testDraw();
+    	 new PileTest().testGetCards();
+
+    );
+    
+end PileTest

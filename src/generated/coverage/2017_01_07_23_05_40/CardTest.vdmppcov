@@ -1,0 +1,37 @@
+class CardTest
+		 	
+	operations
+	
+    private assertTrue: bool ==> ()
+    	assertTrue(cond) == return
+    pre cond;
+            
+           
+           
+    private testEmptyCard: () ==> ()
+    testEmptyCard() ==
+    (
+    	dcl testCard : Card := new Card();
+    	assertTrue(testCard.getRank() = "null");
+    	assertTrue(testCard.getSuit() = '0');
+    	assertTrue(testCard.getScore() = 0);    
+    );
+    
+    private testCardValue: () ==> ()
+    testCardValue() ==
+    (
+    	dcl testCard : Card := new Card(11, 'H');
+    	assertTrue(testCard.getRank() = "J");
+    	assertTrue(testCard.getSuit() = 'H');
+    	assertTrue(testCard.getScore() = 11); 
+    );
+    
+   
+    public static main: () ==> ()
+    main() ==
+    (
+       new CardTest().testEmptyCard();
+       new CardTest().testCardValue();     
+    );
+    
+end CardTest

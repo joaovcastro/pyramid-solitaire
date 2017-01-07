@@ -1,0 +1,82 @@
+class PyramidTest
+
+	instance variables
+	
+	  private pyramid : Pyramid := new Pyramid();
+		private testCard : Card := new Card();
+		private ace : Card := new Card(1, 'S');
+	 	
+	operations
+	
+    private assertTrue: bool ==> ()
+    	assertTrue(cond) == return
+    pre cond;
+            
+    private testPlaceGetCard: () ==> ()
+    testPlaceGetCard() ==
+    (
+    	assertTrue(len pyramid.getCards() = 0);
+    	pyramid.placeCard(ace);
+    	assertTrue(len pyramid.getCards() = 1);
+    );
+    
+    private testDeleteCard: () ==> ()
+    testDeleteCard() ==
+    (
+    	pyramid := new Pyramid();
+    	pyramid.placeCard(ace);
+    	pyramid.deleteCard(1);
+    	assertTrue(pyramid.getCards()(1).getScore() = 0);
+    );
+    
+    private testCheckCard: () ==> ()
+    testCheckCard() ==
+    (
+    	pyramid := new Pyramid();
+    	pyramid.placeCard(ace);
+    	pyramid.deleteCard(1);
+    	assertTrue(pyramid.getCards()(1).getScore() = 0);
+    );
+    
+    private testRemoveCard: () ==> ()
+    testRemoveCard() ==
+    (
+    
+    	IO`print("");
+    );
+    
+    private testGetCards: () ==> ()
+    testGetCards() ==
+    (
+    	
+    	dcl auxDeck : Deck := new Deck();
+    	IO`print("");
+
+
+    );
+    
+    private testCheckCardAtCoordinate: () ==> ()
+    testCheckCardAtCoordinate() ==
+    (
+    	
+    	dcl auxDeck : Deck := new Deck();
+    	IO`print("");
+
+    );
+    
+    
+    
+   
+    public static main: () ==> ()
+    main() ==
+    (
+       new PyramidTest().testPlaceGetCard();
+       new PyramidTest().testDeleteCard();
+       new PyramidTest().testCheckCard();
+      -- new PyramidTest().testRemoveCard();
+    	 --new PyramidTest().testGetCards();
+    	 --new PyramidTest().testCheckCardAtCoordinate();
+
+    );
+    
+end PyramidTest

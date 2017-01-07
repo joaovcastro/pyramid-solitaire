@@ -1,0 +1,67 @@
+class PileTest
+
+	instance variables
+	
+	  deck : Deck := new Deck();
+	 	private takenCard : Card := new Card();
+	 	
+	 	
+	operations
+	
+    private assertTrue: bool ==> ()
+    	assertTrue(cond) == return
+    pre cond;
+            
+    private testPush: () ==> ()
+    testPush() ==
+    (
+    	assertTrue(len deck.cards = 52);
+    	takenCard := deck.takeCard();
+      assertTrue(len deck.cards = 51);
+    );
+    
+    private testPop: () ==> ()
+    testPop() ==
+    (
+    	assertTrue(len deck.cards = 52);
+    	takenCard := deck.takeCard();
+      assertTrue(len deck.cards = 51);
+    );
+    
+    private testTop: () ==> ()
+    testTop() ==
+    (
+    	assertTrue(len deck.cards = 52);
+    	takenCard := deck.takeCard();
+      assertTrue(len deck.cards = 51);
+    );
+    
+    private testDraw: () ==> ()
+    testDraw() ==
+    (
+    	assertTrue(len deck.cards = 52);
+    	takenCard := deck.takeCard();
+      assertTrue(len deck.cards = 51);
+    );
+    
+    private testGetCards: () ==> ()
+    testGetCards() ==
+    (
+    	assertTrue(len deck.cards = 52);
+    	takenCard := deck.takeCard();
+      assertTrue(len deck.cards = 51);
+    );
+    
+   
+    public static main: () ==> ()
+    main() ==
+    (
+       new PileTest().testPush();
+       new PileTest().testPop();
+       new PileTest().testTop();
+       new PileTest().testDraw();
+       new PileTest().testGetCards();
+
+    );
+    
+end PileTest
