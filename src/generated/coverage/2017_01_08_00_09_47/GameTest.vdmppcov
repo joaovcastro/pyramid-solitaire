@@ -1,0 +1,73 @@
+class GameTest
+
+	instance variables
+	
+	  private pyramid : Pyramid := new Pyramid();
+		private testCard : Card := new Card();
+		private ace : Card := new Card(1, 'S');
+		private testSeq : seq of Card := [];
+		private game : Game := new Game();
+	 	
+	operations
+	
+    private assertTrue: bool ==> ()
+    	assertTrue(cond) == return
+    pre cond;
+   
+   
+    private testDrawCard: () ==> ()
+    testDrawCard() ==
+    (
+    	game := new Game();
+    	assertTrue(len game.wastePile.cards = 0);
+    	game.drawCard();
+    	assertTrue(len game.wastePile.cards = 1);
+   	);
+   	
+   	 private testPairCards: () ==> ()
+    testPairCards() ==
+    (
+    	dcl ten : Card := new Card(10, 'S');
+    	dcl three : Card := new Card(3, 'S');
+    	dcl four : Card := new Card(4, 'S');
+    	assertTrue(game.pairCards(ten, three) = true);
+    	assertTrue(game.pairCards(three, four) = false);
+    );
+    
+    private testPlaceCardsInPyramid: () ==> ()
+    testPlaceCardsInPyramid() ==
+    (
+    	game.pyramid := new Pyramid();
+    	assertTrue(len game.pyramid.cards = 0);
+    	game := new Game();
+   		assertTrue(len game.pyramid.cards = 28);
+    );
+            
+    private testCheckGameOver: () ==> ()
+    testCheckGameOver() ==
+    (
+    	game.pyramid := new Pyramid();
+    	assertTrue(game.checkGameOver() = true);
+    );
+    
+   	private testCheckCardPile: () ==> ()
+    testCheckCardPile() ==
+    (
+    	dcl threeClubs : Card := new Card(3, 'C');
+    	game.wastePile.push(threeClubs);
+    	assertTrue(game.wastePile.top().getSuit() = 'C');
+    	assertTrue(game.wastePile.top().getScore() = 3);
+    );
+
+   
+    public static main: () ==> ()
+    main() ==
+    (
+ 	     new GameTest().testDrawCard();
+       new GameTest().testPairCards();
+       new GameTest().testPlaceCardsInPyramid();
+    	 new GameTest().testCheckCardPile();
+       new GameTest().testCheckGameOver();
+    );
+    
+end GameTest
