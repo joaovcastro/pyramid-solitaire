@@ -1,0 +1,45 @@
+class GameTest
+
+	instance variables
+	
+	  private pyramid : Pyramid := new Pyramid();
+		private testCard : Card := new Card();
+		private ace : Card := new Card(1, 'S');
+		private testSeq : seq of Card := [];
+		private game : Game := new Game();
+	 	
+	operations
+	
+    private assertTrue: bool ==> ()
+    	assertTrue(cond) == return
+    pre cond;
+   
+   
+    private testDrawCard: () ==> ()
+    testDrawCard() ==
+    (
+    	game := new Game();
+    	assertTrue(len game.wastePile.cards = 0);
+    	game.drawCard();
+    	assertTrue(len game.wastePile.cards = 1);
+    );
+            
+    private testCheckGameOver: () ==> ()
+    testCheckGameOver() ==
+    (
+    	game.pyramid := new Pyramid();
+    	assertTrue(game.checkGameOver() = true);
+    );
+
+   
+    public static main: () ==> ()
+    main() ==
+    (
+ 	     new GameTest().testDrawCard();
+  --     new GameTest().testPairCards();
+   --    new GameTest().testPlaceCardsInPyramid();
+    --   new GameTest().testCheckCardPile();
+       new GameTest().testCheckGameOver();
+    );
+    
+end GameTest

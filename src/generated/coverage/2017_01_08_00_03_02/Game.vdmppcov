@@ -134,13 +134,13 @@ operations
 	----------------
 	-- Pair Cards --
 	----------------
-	public pairCards: Card * Card ==> bool
+	public pairCards: Card * Card ==> ()
 	pairCards(c1, c2) == 
 	(	
 		-- Check if card sum is 13
 		if c1.getScore() + c2.getScore() = 13 
-			then  return true
-		else return false;
+			then  IO`print("pair\n")
+		else IO`print("not pair\n");
 		-- Delete cards and return true
 	 );
 	-- post len deck.cards  = 52;
