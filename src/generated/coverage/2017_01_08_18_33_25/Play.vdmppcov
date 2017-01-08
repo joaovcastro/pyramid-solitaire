@@ -1,0 +1,17 @@
+class Play
+
+	instance variables
+		public rank : seq of char;
+		public suit : char;
+
+
+	operations
+		public Play : seq of char * char ==> Play
+		Play(rnk, su) == 
+		(
+			rank := rnk;
+			suit := su;
+			return self;
+		);
+	
+end Play

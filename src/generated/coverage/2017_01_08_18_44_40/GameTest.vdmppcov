@@ -66,10 +66,10 @@ class GameTest
     public static main: () ==> ()
     main() ==
     (
- 	     new GameTest().testDrawCard();
-    	 new GameTest().testPairCards();
-       new GameTest().testPlaceCardsInPyramid();
-    	 new GameTest().testCheckCardPile();
+ --	     new GameTest().testDrawCard();
+ --     new GameTest().testPairCards();
+ --      new GameTest().testPlaceCardsInPyramid();
+   -- 	 new GameTest().testCheckCardPile();
        new GameTest().testCheckGameOver();
     );
     

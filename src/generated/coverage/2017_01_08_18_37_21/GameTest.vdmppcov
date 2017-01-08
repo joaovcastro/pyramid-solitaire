@@ -46,10 +46,6 @@ class GameTest
     testCheckGameOver() ==
     (
     	game.pyramid := new Pyramid();
-    	for i = 1 to 28 do 
-    	(
-    		game.pyramid.placeCard(new Card());
-    	);
     	assertTrue(game.checkGameOver() = true);
     );
     
@@ -67,10 +63,10 @@ class GameTest
     main() ==
     (
  	     new GameTest().testDrawCard();
-    	 new GameTest().testPairCards();
+       new GameTest().testPairCards();
        new GameTest().testPlaceCardsInPyramid();
-    	 new GameTest().testCheckCardPile();
-       new GameTest().testCheckGameOver();
+    --	 new GameTest().testCheckCardPile();
+    --   new GameTest().testCheckGameOver();
     );
     
 end GameTest
